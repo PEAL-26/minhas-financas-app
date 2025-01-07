@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "Minhas Finanças App",
+    "slug": "minhas-financas-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "minhas-financas-app",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#FFF"
+      },
+      "package": "com.peal26.minhasfinancasapp"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-splash-screen",
+        {
+          "android": {
+            "backgroundColor": "#2cb547",
+            "image": "./assets/images/splash.png"
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {},
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
+  }
+}
