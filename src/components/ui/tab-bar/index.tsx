@@ -1,22 +1,21 @@
-import { useRouter } from "expo-router";
 import {
   ArrowDownUpIcon,
   ListIcon,
-  PlusIcon,
   TrendingDownIcon,
   TrendingUpIcon,
 } from "lucide-react-native";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
 import { cn } from "@/lib/utils";
+
 import { TabBarButton } from "./tab-bar-button";
+import { AddButton } from "./add-button";
 
 export type TabBarProps = BottomTabBarProps;
 
 export function TabBar(props: TabBarProps) {
   const { state, navigation } = props;
-  const router = useRouter();
   const routeName = state.routeNames[state.index];
 
   const getRouteByName = (name: string) =>
@@ -86,13 +85,7 @@ export function TabBar(props: TabBarProps) {
           />
         </View>
         <View className="absolute h-20 w-20 rounded-full bg-white -top-[95%] translate-x-1/2 right-1/2 flex flex-col items-center justify-center">
-          <TouchableOpacity
-            activeOpacity={0.6}
-            className="rounded-full bg-primary h-14 w-14 flex flex-col items-center justify-center"
-            onPress={() => router.push("/transactions/register" as any)}
-          >
-            <PlusIcon size={20} color={"#fff"} />
-          </TouchableOpacity>
+          <AddButton />
         </View>
       </View>
     </View>
