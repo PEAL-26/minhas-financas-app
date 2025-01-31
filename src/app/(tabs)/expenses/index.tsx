@@ -1,19 +1,20 @@
 import { RefreshControl, View } from "react-native";
 
-import { IncomeListingCard } from "@/components/ui/cards";
+import { ExpenseListingCard } from "@/components/ui/cards";
 import { FlashList, setFlashListLoader } from "@/components/ui/flash-list";
 import { colors } from "@/styles/colors";
 
 export default function ExpensesScreen() {
-  const data = Array.from({ length: 10 }).map((_, index) => ({
+  const data = Array.from({ length: 5 }, (_, index) => ({
     id: index,
-    title: `Titulo ${index}`,
-    description: `Descrição ${index}`,
+    title: `Despesa ${index + 1}`,
+    description: `Descrição da despesa ${index + 1}`,
     date: new Date(),
-    amount: 10.1,
-    type: "unique" as const,
-    return: null,
-    status: "pending" as const,
+    amount: 50 * (index + 1),
+    priority: (index % 3) as 0 | 1 | 2,
+    type: index % 2 === 0 ? ("unique" as const) : ("recurrent" as const),
+    recurrence: index % 2 === 0 ? null : 30,
+    status: index % 2 === 0 ? ("pending" as const) : ("done" as const),
   }));
 
   const isLoading = false;
@@ -25,7 +26,7 @@ export default function ExpensesScreen() {
     <View className="flex h-full w-full flex-1 flex-col pb-[72px] px-4">
       <FlashList
         data={data}
-        renderItem={({ item }) => <IncomeListingCard data={item} />}
+        renderItem={({ item }) => <ExpenseListingCard data={item} />}
         refreshing={isLoading}
         refreshControl={
           <RefreshControl
@@ -47,7 +48,7 @@ export default function ExpensesScreen() {
         // }
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListFooterComponentStyle={{ paddingVertical: 16 }}
-        estimatedItemSize={146}
+        estimatedItemSize={170}
         onEndReachedThreshold={0.3}
         showsVerticalScrollIndicator={false}
         // onEndReached={loadNextPageData}

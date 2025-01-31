@@ -5,14 +5,14 @@ import { FlashList, setFlashListLoader } from "@/components/ui/flash-list";
 import { colors } from "@/styles/colors";
 
 export default function IncomesScreen() {
-  const data = Array.from({ length: 10 }).map((_, index) => ({
+  const data = Array.from({ length: 5 }, (_, index) => ({
     id: index,
-    title: `Titulo ${index}`,
-    description: `Descrição ${index}`,
+    title: `Receita ${index + 1}`,
+    description: `Descrição da receita ${index + 1}`,
     date: new Date(),
-    amount: 10.1,
+    amount: 100 * (index + 1),
     type: "unique" as const,
-    return: null,
+    recurrence: index % 2 === 0 ? null : 30,
     status: "pending" as const,
   }));
 

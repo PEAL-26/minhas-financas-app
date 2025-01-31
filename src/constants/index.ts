@@ -2,7 +2,7 @@ import { Status, Types } from "@/types";
 
 export const STATUS_MAP: Record<Status, string> = {
   pending: "Pendente",
-  done: "Concluído",
+  done: "Efectuada",
 };
 
 export const STATUS_COLOR = {
@@ -21,4 +21,16 @@ export const RECURRENCE_MAP = {
   monthly: "Mensal",
   annual: "Anual",
   custom: "Personalizado",
+};
+
+export const PRIORITY_MAP = {
+  0: "Mínima",
+  1: "Normal",
+  2: "Máxima",
+};
+
+export const PRIORITY_COLOR = {
+  0: "warn" as const,
+  1: "success" as const,
+  2: "error" as const,
 };

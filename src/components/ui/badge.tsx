@@ -3,7 +3,7 @@ import { Text } from "./text";
 
 interface Props {
   text: string;
-  type?: "success" | "warn" | "error";
+  type?: "info" | "success" | "warn" | "error";
 }
 
 export function Badge(props: Props) {
@@ -13,6 +13,10 @@ export function Badge(props: Props) {
     success: {
       text: "#166534",
       bg: "#dcfce7",
+    },
+    info: {
+      text: "#1e40af",
+      bg: "#dbeafe",
     },
     warn: {
       text: "#854d0e",

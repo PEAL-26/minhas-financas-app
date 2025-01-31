@@ -34,7 +34,6 @@
 //   id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
 //   needId: integer("need_id"),
 //   incomeId: integer("income_id"),
-//   incomeExpenseId: integer("income_expense_id"),
 //   title: text("title"),
 //   description: text("description"),
 //   date: integer("created_at", { mode: "timestamp" }).notNull(),
