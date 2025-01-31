@@ -10,15 +10,17 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { ActivityIndicator, View } from "react-native";
 import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 
-import { connectionDrizzle, expoOpenDatabase } from "@/db";
+// import { connectionDrizzle, openDatabase } from "@/db";
 
 import migrations from "../../drizzle/migrations";
+import { colors } from "@/styles/colors";
 
 SplashScreen.preventAutoHideAsync();
 // SplashScreen.setOptions({
@@ -29,9 +31,9 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  useDrizzleStudio(expoOpenDatabase);
+  // useDrizzleStudio(openDatabase);
 
-  const migration = useMigrations(connectionDrizzle, migrations);
+  // const migration = useMigrations(connectionDrizzle, migrations);
 
   const [loaded] = useFonts({
     SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
@@ -43,18 +45,18 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (migration?.error) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <Text>Oops! Migration error: {migration?.error?.message}</Text>
-      </View>
-    );
-  }
+  // if (migration?.error) {
+  //   return (
+  //     <View className="flex-1 justify-center items-center">
+  //       <Text>Oops! Migration error: {migration?.error?.message}</Text>
+  //     </View>
+  //   );
+  // }
 
-  if (!loaded || !migration.success) {
+  if (!loaded /*|| !migration.success*/) {
     return (
       <View className="flex-1 justify-center items-center ">
-        <ActivityIndicator color="#000" size="small" />
+        <ActivityIndicator color={colors.primary.DEFAULT} size="small" />
         <StatusBar style="dark" translucent animated />
       </View>
     );
@@ -62,19 +64,24 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <SafeAreaView style={{ flex: 1 }}>
-          <AutocompleteDropdownContextProvider>
-            <QueryClientProvider client={queryClient}>
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="+not-found" />
-              </Stack>
-              <StatusBar style="dark" translucent animated />
-            </QueryClientProvider>
-          </AutocompleteDropdownContextProvider>
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <BottomSheetModalProvider>
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1 }}>
+            <AutocompleteDropdownContextProvider>
+              <QueryClientProvider client={queryClient}>
+                <Stack>
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen name="+not-found" />
+                </Stack>
+                <StatusBar style="dark" translucent animated />
+              </QueryClientProvider>
+            </AutocompleteDropdownContextProvider>
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }

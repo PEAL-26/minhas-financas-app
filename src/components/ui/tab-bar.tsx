@@ -1,6 +1,11 @@
 import { useRouter } from "expo-router";
-import { PlusIcon } from "lucide-react-native";
-import { ListCheckIcon } from "lucide-react-native";
+import {
+  ArrowDownUpIcon,
+  ListIcon,
+  PlusIcon,
+  TrendingDownIcon,
+  TrendingUpIcon,
+} from "lucide-react-native";
 import { TouchableOpacity, View } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
@@ -51,14 +56,14 @@ export function TabBar(props: TabBarProps) {
         <View className="flex-row items-center gap-4">
           <TabBarButton
             label="Transações"
-            icon={ListCheckIcon}
+            icon={ArrowDownUpIcon}
             isFocused={routeName === "transactions/index"}
             onPress={() => handlePress("transactions/index")}
             onLongPress={() => handleLongPress("transactions/index")}
           />
           <TabBarButton
             label="Rendas"
-            icon={ListCheckIcon}
+            icon={TrendingUpIcon}
             isFocused={routeName === "incomes/index"}
             onPress={() => handlePress("incomes/index")}
             onLongPress={() => handleLongPress("incomes/index")}
@@ -67,26 +72,28 @@ export function TabBar(props: TabBarProps) {
         <View className="flex-row items-center gap-4">
           <TabBarButton
             label="Despesas"
-            icon={ListCheckIcon}
+            icon={TrendingDownIcon}
             isFocused={routeName === "expenses/index"}
             onPress={() => handlePress("expenses/index")}
             onLongPress={() => handleLongPress("expenses/index")}
           />
           <TabBarButton
             label="Necessidades"
-            icon={ListCheckIcon}
+            icon={ListIcon}
             isFocused={routeName === "needs/index"}
             onPress={() => handlePress("needs/index")}
             onLongPress={() => handleLongPress("needs/index")}
           />
         </View>
-        <TouchableOpacity
-          activeOpacity={0.6}
-          className="absolute flex flex-col items-center justify-center rounded-full bg-primary h-14 w-14 -top-14 right-1/2 shadow"
-          onPress={() => router.push("/transactions/register" as any)}
-        >
-          <PlusIcon size={20} color={"#fff"} />
-        </TouchableOpacity>
+        <View className="absolute h-20 w-20 rounded-full bg-white -top-[95%] translate-x-1/2 right-1/2 flex flex-col items-center justify-center">
+          <TouchableOpacity
+            activeOpacity={0.6}
+            className="rounded-full bg-primary h-14 w-14 flex flex-col items-center justify-center"
+            onPress={() => router.push("/transactions/register" as any)}
+          >
+            <PlusIcon size={20} color={"#fff"} />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

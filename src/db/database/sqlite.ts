@@ -1,4 +1,4 @@
-import { SQLiteDatabase } from "expo-sqlite";
+// import { SQLiteDatabase } from "expo-sqlite";
 import { IDatabase } from "./interfaces";
 import {
   DatabaseConfig,
@@ -19,7 +19,7 @@ import {
 } from "./utils";
 
 export class DatabaseSQLite implements IDatabase {
-  constructor(private connection: SQLiteDatabase) {}
+  constructor(private connection: any) {}
 
   async transaction(callback: () => Promise<void>) {
     return this.connection.withTransactionAsync(callback);
