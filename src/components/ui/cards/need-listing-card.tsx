@@ -1,36 +1,29 @@
-import { CalendarIcon } from "lucide-react-native";
 import { TouchableOpacity, View } from "react-native";
+import { FolderIcon } from "lucide-react-native";
 
-import {
-  PRIORITY_COLOR,
-  PRIORITY_MAP,
-  STATUS_COLOR,
-  STATUS_MAP,
-  TYPES_MAP,
-} from "@/constants";
-import { Status, Types } from "@/types";
-import { formatDate } from "@/helpers/date";
+import { Types } from "@/types";
 import { formatCurrency } from "@/helpers/currency";
+import { PRIORITY_COLOR, PRIORITY_MAP, TYPES_MAP } from "@/constants";
 
 import { Text } from "../text";
 import { Badge } from "../badge";
 import { Recurrence } from "../recurrence";
 
-type ExpenseDataType = {
+type NeedDataType = {
   id: number;
   title: string;
-  date: Date;
-  amount: number;
+  category?: string;
+  description?: string;
   priority: 0 | 1 | 2;
+  amount: number;
   type: Types;
   recurrence?: number | null;
-  status: Status;
 };
 
 interface Props {
-  data: ExpenseDataType;
+  data: NeedDataType;
 }
-export function ExpenseListingCard(props: Props) {
+export function NeedListingCard(props: Props) {
   const { data } = props;
 
   return (
@@ -41,31 +34,22 @@ export function ExpenseListingCard(props: Props) {
             {data.title}
           </Text>
           <Badge
-            text={STATUS_MAP[data.status]}
-            type={data.status === "done" ? "info" : STATUS_COLOR[data.status]}
+            text={PRIORITY_MAP[data.priority]}
+            type={PRIORITY_COLOR[data.priority]}
           />
         </View>
         <View className="flex flex-row justify-between items-center mt-2">
           <View className="flex flex-row items-center gap-1">
-            <CalendarIcon size={14} className="text-zinc-600" />
-            <Text className="text-sm text-zinc-600">
-              {formatDate(data.date)}
-            </Text>
+            <FolderIcon size={14} className="text-zinc-600" />
+            <Text className="text-sm text-zinc-600">{data.category}</Text>
           </View>
           <Text className="font-bold text-primary">
             {formatCurrency(data.amount)}
           </Text>
         </View>
 
-        <View className="flex flex-col gap-2 mt-2">
-          <View className="flex flex-row justify-between items-center">
-            <Badge text={TYPES_MAP[data.type]} />
-            <Badge
-              text={PRIORITY_MAP[data.priority]}
-              type={PRIORITY_COLOR[data.priority]}
-            />
-          </View>
-
+        <View className="flex flex-row justify-between items-center mt-2">
+          <Badge text={TYPES_MAP[data.type]} />
           <Recurrence value={data?.recurrence} />
         </View>
       </View>

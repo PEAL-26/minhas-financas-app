@@ -47,7 +47,7 @@ export default function IncomesScreen() {
         // }
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListFooterComponentStyle={{ paddingVertical: 16 }}
-        estimatedItemSize={146}
+        estimatedItemSize={126}
         onEndReachedThreshold={0.3}
         showsVerticalScrollIndicator={false}
         // onEndReached={loadNextPageData}

@@ -48,7 +48,7 @@ export default function ExpensesScreen() {
         // }
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListFooterComponentStyle={{ paddingVertical: 16 }}
-        estimatedItemSize={170}
+        estimatedItemSize={126}
         onEndReachedThreshold={0.3}
         showsVerticalScrollIndicator={false}
         // onEndReached={loadNextPageData}

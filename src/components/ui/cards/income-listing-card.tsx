@@ -1,15 +1,18 @@
-import { Status, Types } from "@/types";
 import { TouchableOpacity, View } from "react-native";
+import { CalendarIcon } from "lucide-react-native";
+
+import { Status, Types } from "@/types";
+import { formatDate } from "@/helpers/date";
+import { formatCurrency } from "@/helpers/currency";
+import { STATUS_COLOR, STATUS_MAP, TYPES_MAP } from "@/constants";
+
 import { Text } from "../text";
 import { Badge } from "../badge";
-import { STATUS_COLOR, STATUS_MAP, TYPES_MAP } from "@/constants";
-import { CalendarIcon } from "lucide-react-native";
 import { Recurrence } from "../recurrence";
 
 type IncomeDataType = {
   id: number;
   title: string;
-  description?: string;
   date: Date;
   amount: number;
   type: Types;
@@ -22,18 +25,6 @@ interface Props {
 }
 export function IncomeListingCard(props: Props) {
   const { data } = props;
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat("pt-AO", { dateStyle: "medium" }).format(
-      date
-    );
-  };
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-AO", {
-      style: "currency",
-      currency: "AOA",
-    }).format(value);
-  };
 
   return (
     <TouchableOpacity activeOpacity={0.6}>
@@ -47,14 +38,6 @@ export function IncomeListingCard(props: Props) {
             type={STATUS_COLOR[data.status]}
           />
         </View>
-        {data?.description && (
-          <Text
-            className="text-sm text-zinc-500 line-clamp-1"
-            numberOfLines={2}
-          >
-            {data.description}
-          </Text>
-        )}
         <View className="flex flex-row justify-between items-center mt-2">
           <View className="flex flex-row items-center gap-1">
             <CalendarIcon size={14} className="text-zinc-600" />

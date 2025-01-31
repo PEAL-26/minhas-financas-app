@@ -32,11 +32,11 @@ export function Badge(props: Props) {
   return (
     <View
       style={{ borderColor: color?.bg, backgroundColor: color?.bg }}
-      className="flex flex-row justify-center items-center py-1 px-3 rounded-full border"
+      className="flex flex-row justify-center items-center py-1 px-3 rounded-full border border-zinc-400"
     >
       <Text
         style={{ color: color?.text }}
-        className="text-xs text-black font-medium"
+        className="text-xs text-zinc-800 font-medium"
       >
         {text}
       </Text>
