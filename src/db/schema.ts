@@ -15,6 +15,7 @@
 
 // export const transaction = sqliteTable("transactions", {
 //   id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+//   type: t.text().$type<TransactionTypes>().notNull(),
 //   incomeId: integer("income_id"),
 //   expenseId: integer("expense_id"),
 //   incomeExpenseId: integer("income_expense_id"),
@@ -34,12 +35,13 @@
 //   id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
 //   needId: integer("need_id"),
 //   incomeId: integer("income_id"),
+//   categoryId: integer("category_id"),
 //   title: text("title"),
 //   description: text("description"),
 //   date: integer("created_at", { mode: "timestamp" }).notNull(),
 //   amount: real("amount").notNull().default(0.0),
 //   priority: integer("priority").default(1),
-//   type: t.text().$type<NeedTypes>().default("unique"),
+//   type: t.text().$type<Types>().default("unique"),
 //   recurrence: integer("recurrence"),
 //   status: t.text().$type<Status>().default("pending"),
 //   createdAt: integer("created_at", { mode: "timestamp" }).default(

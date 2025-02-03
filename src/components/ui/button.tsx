@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import {
-  ComponentPropsWithoutRef,
   ElementRef,
   ElementType,
   forwardRef,
@@ -12,7 +11,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ViewProps,
   ViewStyle,
 } from "react-native";
 

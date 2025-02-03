@@ -8,7 +8,7 @@ import {
   STATUS_MAP,
   TYPES_MAP,
 } from "@/constants";
-import { Status, Types } from "@/types";
+import { Status, OperationTypes } from "@/types";
 import { formatDate } from "@/helpers/date";
 import { formatCurrency } from "@/helpers/currency";
 
@@ -19,10 +19,11 @@ import { Recurrence } from "../recurrence";
 type ExpenseDataType = {
   id: number;
   title: string;
+  category?: string;
   date: Date;
   amount: number;
   priority: 0 | 1 | 2;
-  type: Types;
+  type: OperationTypes;
   recurrence?: number | null;
   status: Status;
 };
@@ -45,14 +46,26 @@ export function ExpenseListingCard(props: Props) {
             type={data.status === "done" ? "info" : STATUS_COLOR[data.status]}
           />
         </View>
+        {data?.category && (
+          <Text
+            className="text-zinc-600 text-xs line-clamp-1"
+            numberOfLines={1}
+          >
+            {data.category}
+          </Text>
+        )}
         <View className="flex flex-row justify-between items-center mt-2">
           <View className="flex flex-row items-center gap-1">
-            <CalendarIcon size={14} className="text-zinc-600" />
+            <CalendarIcon
+              size={14}
+              color={"#52525b"}
+              className="text-zinc-600"
+            />
             <Text className="text-sm text-zinc-600">
               {formatDate(data.date)}
             </Text>
           </View>
-          <Text className="font-bold text-primary">
+          <Text className="font-bold text-red-500">
             {formatCurrency(data.amount)}
           </Text>
         </View>

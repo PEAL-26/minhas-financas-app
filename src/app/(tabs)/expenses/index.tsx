@@ -3,12 +3,13 @@ import { RefreshControl, View } from "react-native";
 import { ExpenseListingCard } from "@/components/ui/cards";
 import { FlashList, setFlashListLoader } from "@/components/ui/flash-list";
 import { colors } from "@/styles/colors";
+import { SwipeableActions } from "@/components/ui/swipeable";
 
 export default function ExpensesScreen() {
   const data = Array.from({ length: 5 }, (_, index) => ({
     id: index,
     title: `Despesa ${index + 1}`,
-    description: `Descrição da despesa ${index + 1}`,
+    category: `Categoria ${index + 1}`,
     date: new Date(),
     amount: 50 * (index + 1),
     priority: (index % 3) as 0 | 1 | 2,
@@ -26,7 +27,11 @@ export default function ExpensesScreen() {
     <View className="flex h-full w-full flex-1 flex-col pb-[72px] px-4">
       <FlashList
         data={data}
-        renderItem={({ item }) => <ExpenseListingCard data={item} />}
+        renderItem={({ item }) => (
+          <SwipeableActions>
+            <ExpenseListingCard data={item} />
+          </SwipeableActions>
+        )}
         refreshing={isLoading}
         refreshControl={
           <RefreshControl

@@ -1,24 +1,33 @@
 import { DatabaseSQLite } from "./database";
+import { join } from "node:path";
+var openDatabase;
+var connectionDrizzle;
+const DATABASE_NAME = "minhas_financas.db";
 
-var drizzle
-var openDatabaseSync
-
-if(typeof window !== "undefined"){
-    console.log("web")
-}else{
-    const drizzleExpoSqlite = require("drizzle-orm/expo-sqlite");
-    const expoSqlite = require("expo-sqlite");
-
-    drizzle = drizzleExpoSqlite.drizzle
-    openDatabaseSync = expoSqlite.openDatabaseSync
+if (typeof window !== "undefined") {
+//   (async () => {
+//     const initSqlJs = require("sql.js");
+//     const SQL = await initSqlJs({
+//       locateFile: (file: any) =>
+//         `${join(
+//           __dirname,
+//           "..",
+//           "..",
+//           "node_modules",
+//           "sql.js",
+//           "dist",
+//           file
+//         )}`,
+//     });
+//     openDatabase = new SQL.Database();
+//   })();
+} else {
+//   const drizzleExpoSqlite = require("drizzle-orm/expo-sqlite");
+//   const expoSqlite = require("expo-sqlite");
+//   openDatabase = expoSqlite.openDatabaseSync(DATABASE_NAME);
+//   connectionDrizzle = drizzleExpoSqlite.drizzle(openDatabase);
 }
 
-// import { drizzle } from "drizzle-orm/expo-sqlite";
-// import { openDatabaseSync } from "expo-sqlite";
+const db = new DatabaseSQLite(openDatabase);
 
-export const DATABASE_NAME = "minhas_financas.db";
-
-export const openDatabase = openDatabaseSync(DATABASE_NAME);
-export const connectionDrizzle = drizzle(openDatabase);
-
-export const db = new DatabaseSQLite(openDatabase);
+export { db, connectionDrizzle, DATABASE_NAME };

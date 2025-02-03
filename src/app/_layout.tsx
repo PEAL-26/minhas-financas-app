@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import "react-native-reanimated";
 import "../styles/global.css";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Stack } from "expo-router";
 import { Text } from "react-native";
 import { useFonts } from "expo-font";
@@ -21,6 +21,7 @@ import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-d
 
 import migrations from "../../drizzle/migrations";
 import { colors } from "@/styles/colors";
+import { Header } from "@/components/ui/header";
 
 SplashScreen.preventAutoHideAsync();
 // SplashScreen.setOptions({
@@ -35,15 +36,17 @@ export default function RootLayout() {
 
   // const migration = useMigrations(connectionDrizzle, migrations);
 
-  const [loaded] = useFonts({
+  const [fontLoaded] = useFonts({
     SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
   });
 
+  const [screenLoaded, setScreenLoaded] = useState(true);
+
   useEffect(() => {
-    if (loaded) {
+    if (fontLoaded && screenLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontLoaded, screenLoaded]);
 
   // if (migration?.error) {
   //   return (
@@ -53,7 +56,7 @@ export default function RootLayout() {
   //   );
   // }
 
-  if (!loaded /*|| !migration.success*/) {
+  if (!fontLoaded || !screenLoaded /*|| !migration.success*/) {
     return (
       <View className="flex-1 justify-center items-center ">
         <ActivityIndicator color={colors.primary.DEFAULT} size="small" />
@@ -69,13 +72,22 @@ export default function RootLayout() {
           <SafeAreaView style={{ flex: 1 }}>
             <AutocompleteDropdownContextProvider>
               <QueryClientProvider client={queryClient}>
-                <Stack>
-                  <Stack.Screen
-                    name="(tabs)"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen name="+not-found" />
-                </Stack>
+                <View
+                  style={{ flex: 1 }}
+                  onLayout={() => {
+                    setScreenLoaded(true);
+                  }}
+                >
+                  <Stack>
+                    <Stack.Screen
+                      name="(tabs)"
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen name="+not-found" />
+                  </Stack>
+                </View>
                 <StatusBar style="dark" translucent animated />
               </QueryClientProvider>
             </AutocompleteDropdownContextProvider>

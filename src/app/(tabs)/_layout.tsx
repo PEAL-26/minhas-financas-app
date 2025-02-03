@@ -11,10 +11,10 @@ export default function TabLayout() {
     <View className="flex-1 relative">
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: "",
+          // tabBarActiveTintColor: "",
           // headerShown: false,
           // headerTransparent: true,
-          header: (props) => <Header {...props} />,
+          header: Header,
         }}
         tabBar={({ ...rest }) => <TabBar {...rest} />}
       />

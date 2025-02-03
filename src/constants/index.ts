@@ -1,4 +1,4 @@
-import { Status, Types } from "@/types";
+import { Status, OperationTypes } from "@/types";
 
 export const STATUS_MAP: Record<Status, string> = {
   pending: "Pendente",
@@ -10,10 +10,18 @@ export const STATUS_COLOR = {
   done: "success" as const,
 };
 
-export const TYPES_MAP: Record<Types, string> = {
+export const TYPES_MAP: Record<OperationTypes, string> = {
   unique: "Única",
   recurrent: "Recorrente",
 };
+
+export const RECURRENCES = [
+  { id: 1, title: "Diária" },
+  { id: 7, title: "Semanal" },
+  { id: 30, title: "Mensal" },
+  { id: 360, title: "Anual" },
+  { id: null, title: "Personalizado" },
+];
 
 export const RECURRENCE_MAP = {
   daily: "Diária",

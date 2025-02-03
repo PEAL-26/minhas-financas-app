@@ -5,21 +5,26 @@ import {
   TrendingDownIcon,
   TrendingUpIcon,
 } from "lucide-react-native";
-import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
+import { useState } from "react";
+
+import {
+  ExpenseRegisterModal,
+  IncomeRegisterModal,
+  NeedRegisterModal,
+  TransactionRegisterModal,
+} from "@/components/modals";
 
 import { styles } from "./styles";
 import { FloatingActionButton } from "../floating-action-button";
-import { NeedModal } from "@/components/modals/need-modal";
-import { useState } from "react";
 
 const AnimatedPressable = Animated.createAnimatedComponent(TouchableOpacity);
 
 type ModalTypes = "transaction" | "income" | "expense" | "need";
 
 export function AddButton() {
-
-  const [showModal, setShowModal] = useState() 
+  const [showModal, setShowModal] = useState<Record<string, boolean>>();
   const isExpanded = useSharedValue(false);
 
   const handlePress = () => {
@@ -28,6 +33,7 @@ export function AddButton() {
 
   const handleOpenModal = (modal: ModalTypes) => {
     isExpanded.value = false;
+    setShowModal({ [modal]: true });
   };
 
   return (
@@ -83,7 +89,30 @@ export function AddButton() {
         }}
       /> */}
 
-      <NeedModal />
+      {showModal?.["need"] && (
+        <NeedRegisterModal
+          show={showModal?.["need"]}
+          onClose={() => setShowModal({ need: false })}
+        />
+      )}
+      {showModal?.["expense"] && (
+        <ExpenseRegisterModal
+          show={showModal?.["expense"]}
+          onClose={() => setShowModal({ expense: false })}
+        />
+      )}
+      {showModal?.["income"] && (
+        <IncomeRegisterModal
+          show={showModal?.["income"]}
+          onClose={() => setShowModal({ income: false })}
+        />
+      )}
+      {showModal?.["transaction"] && (
+        <TransactionRegisterModal
+          show={showModal?.["transaction"]}
+          onClose={() => setShowModal({ transaction: false })}
+        />
+      )}
     </>
   );
 }

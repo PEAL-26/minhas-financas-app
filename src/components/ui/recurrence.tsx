@@ -14,7 +14,7 @@ export function Recurrence(props: Props) {
 
   return (
     <View className="flex flex-row gap-1 items-center text-xs text-blue-600">
-      <RepeatIcon size={12} className="mr-1 h-3 w-3 text-blue-600" />
+      <RepeatIcon size={12} style={{marginRight:4, width: 12, height: 12}} color={"#2563eb"} className="mr-1 h-3 w-3 text-blue-600" />
       <Text className="text-xs text-blue-600">{getRecurrence(value)}</Text>
     </View>
   );

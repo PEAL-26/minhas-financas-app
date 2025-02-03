@@ -1,7 +1,7 @@
 import { TouchableOpacity, View } from "react-native";
 import { FolderIcon } from "lucide-react-native";
 
-import { Types } from "@/types";
+import { OperationTypes } from "@/types";
 import { formatCurrency } from "@/helpers/currency";
 import { PRIORITY_COLOR, PRIORITY_MAP, TYPES_MAP } from "@/constants";
 
@@ -16,7 +16,7 @@ type NeedDataType = {
   description?: string;
   priority: 0 | 1 | 2;
   amount: number;
-  type: Types;
+  type: OperationTypes;
   recurrence?: number | null;
 };
 
@@ -40,10 +40,10 @@ export function NeedListingCard(props: Props) {
         </View>
         <View className="flex flex-row justify-between items-center mt-2">
           <View className="flex flex-row items-center gap-1">
-            <FolderIcon size={14} className="text-zinc-600" />
+            <FolderIcon size={14} color={"#52525b"}className="text-zinc-600" />
             <Text className="text-sm text-zinc-600">{data.category}</Text>
           </View>
-          <Text className="font-bold text-primary">
+          <Text className="font-bold text-blue-600">
             {formatCurrency(data.amount)}
           </Text>
         </View>

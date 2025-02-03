@@ -4,7 +4,7 @@ import {
   TrendingDownIcon,
   TrendingUpIcon,
 } from "lucide-react-native";
-import { View } from "react-native";
+import { useWindowDimensions, View } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
 import { cn } from "@/lib/utils";
@@ -45,10 +45,12 @@ export function TabBar(props: TabBarProps) {
     });
   };
 
+  const dimensions = useWindowDimensions();
+
   return (
     <View
       className={cn(
-        "absolute inset-x-0 border-b border-gray-300 bg-white transition-all py-4 bottom-0"
+        "absolute inset-x-0 border-b border-gray-300 bg-white transition-all py-4 bottom-0 shadow-lg"
       )}
     >
       <View className="relative flex-1 flex-row items-center justify-between px-6 ">
@@ -84,7 +86,12 @@ export function TabBar(props: TabBarProps) {
             onLongPress={() => handleLongPress("needs/index")}
           />
         </View>
-        <View className="absolute h-20 w-20 rounded-full bg-white -top-[95%] translate-x-1/2 right-1/2 flex flex-col items-center justify-center">
+        <View
+          style={{
+            right: dimensions.width / 2 - 40,
+          }}
+          className="h-20 w-20 rounded-full bg-white flex flex-col items-center justify-center self-center -top-[95%] absolute right-[calc(50%-40)]"
+        >
           <AddButton />
         </View>
       </View>

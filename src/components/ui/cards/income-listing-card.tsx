@@ -1,7 +1,7 @@
 import { TouchableOpacity, View } from "react-native";
 import { CalendarIcon } from "lucide-react-native";
 
-import { Status, Types } from "@/types";
+import { Status, OperationTypes } from "@/types";
 import { formatDate } from "@/helpers/date";
 import { formatCurrency } from "@/helpers/currency";
 import { STATUS_COLOR, STATUS_MAP, TYPES_MAP } from "@/constants";
@@ -15,7 +15,7 @@ type IncomeDataType = {
   title: string;
   date: Date;
   amount: number;
-  type: Types;
+  type: OperationTypes;
   recurrence?: number | null;
   status: Status;
 };
@@ -40,7 +40,7 @@ export function IncomeListingCard(props: Props) {
         </View>
         <View className="flex flex-row justify-between items-center mt-2">
           <View className="flex flex-row items-center gap-1">
-            <CalendarIcon size={14} className="text-zinc-600" />
+            <CalendarIcon size={14} color={"#52525b"}className="text-zinc-600" />
             <Text className="text-sm text-zinc-600">
               {formatDate(data.date)}
             </Text>

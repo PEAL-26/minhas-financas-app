@@ -58,12 +58,12 @@ export const FloatingActionButton = (props: Props) => {
       {Icon && (
         <View
           style={styles.shadow}
-          className="bg-white rounded-full w-7 h-7 flex flex-row justify-center items-center"
+          className="bg-white rounded-full w-7 h-7 flex flex-row justify-center items-center shadow"
         >
           <Icon size={16} color={colors.primary.DEFAULT} />
         </View>
       )}
-      <Animated.Text style={[styles.shadow, styles.content]}>
+      <Animated.Text style={[styles.shadow, styles.content]} className="shadow">
         {buttonLetter}
       </Animated.Text>
     </AnimatedPressable>

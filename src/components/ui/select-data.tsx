@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { ActivityIndicator } from "react-native";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react-native";
 
-interface Props<T> {
+export interface SelectDataProps<T> {
   data: T[];
   defaultValue?: T;
   onSelect?(selectedItem: T, index: number): void;
@@ -20,7 +20,7 @@ interface Props<T> {
   disabled?: boolean;
 }
 
-export function SelectData<T>(props: Props<T>) {
+export function SelectData<T>(props: SelectDataProps<T>) {
   const {
     data,
     onSelect,
@@ -49,7 +49,7 @@ export function SelectData<T>(props: Props<T>) {
           <Button
             disabled={disabled}
             className={cn(
-              "h-12 px-3 text-xs w-full rounded-md border border-input bg-background flex-row items-center justify-between gap-2",
+              "h-10 px-3 text-xs w-full rounded-md border border-input bg-background flex-row items-center justify-between gap-2",
               className
             )}
             containerClassName={cn(containerClassName)}

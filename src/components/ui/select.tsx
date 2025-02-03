@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 
 import { Text } from "./text";
 import { Button } from "./button";
-import { SelectDataModal } from "../modals/select-data-modal";
 import { ActivityIndicator, View } from "react-native";
 
 type ItemType = {
@@ -106,15 +105,6 @@ export function Select<T extends ItemType>(props: Props<T>) {
           </View>
         </>
       </Button>
-
-      {!openOutside && (
-        <SelectDataModal
-          // data={items}
-          // onSelect={handleSelect}
-          open={openModal}
-          onClose={setOpenModal}
-        />
-      )}
     </>
   );
 }
