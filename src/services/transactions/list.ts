@@ -1,4 +1,4 @@
-import { db } from "@/db/connection";
+import { db } from '@/db/connection';
 
 export type ListTransactionsParams = {
   query?: string;
@@ -9,14 +9,14 @@ export type ListTransactionsParams = {
 export type ListTransactionsResponseData = {
   id: number;
   title: string;
-  type: "income" | "expense";
+  type: 'income' | 'expense';
   amount: number;
   date: Date;
 };
 
 export async function listTransactions(params?: ListTransactionsParams) {
   const { page, size, query } = params || {};
-  return db.listPaginate<ListTransactionsResponseData>("transactions", {
+  return db.listPaginate<ListTransactionsResponseData>('transactions', {
     select: {
       id: true,
       title: true,
@@ -32,6 +32,6 @@ export async function listTransactions(params?: ListTransactionsParams) {
       //   op: "like",
       // },
     },
-    orderBy: [{ "transactions.created_at": "desc" }],
+    orderBy: [{ 'transactions.created_at': 'desc' }],
   });
 }

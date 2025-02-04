@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef } from "react";
-import { StyleSheet, Text } from "react-native";
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { StyleSheet, Text } from 'react-native';
 
 interface Props {
   show?: boolean;
@@ -18,7 +18,7 @@ export function NeedDetailsModal(props: Props) {
   }, []);
 
   const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
+    console.log('handleSheetChanges', index);
   }, []);
 
   useEffect(() => {
@@ -40,11 +40,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    justifyContent: "center",
-    backgroundColor: "grey",
+    justifyContent: 'center',
+    backgroundColor: 'grey',
   },
   contentContainer: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
   },
 });

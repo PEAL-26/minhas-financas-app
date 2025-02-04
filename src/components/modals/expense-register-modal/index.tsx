@@ -1,10 +1,12 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { View } from "react-native";
-import { FormProvider } from "react-hook-form";
+import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+import { FormProvider } from 'react-hook-form';
+import { View } from 'react-native';
 
-import { Button } from "@/components/ui/button";
-import { useRegister } from "@/hooks/use-register";
+import { PriorityComponent } from '@/components/shared/priority';
+import { TypeRecurrenceComponent } from '@/components/shared/type-recurrence';
+import { Button } from '@/components/ui/button';
+import { ErrorComponent } from '@/components/ui/error';
 import {
   InputAutocompleteController,
   InputController,
@@ -12,20 +14,18 @@ import {
   SelectController,
   SwitchToggleTextController,
   TextareaController,
-} from "@/components/ui/form-controller";
-import { Loading } from "@/components/ui/loading";
-import { ErrorComponent } from "@/components/ui/error";
-import { getExpenseById, mutationExpense } from "@/services/expenses";
-import { useQueryFilter } from "@/hooks/use-query-filter";
-import { PriorityComponent } from "@/components/shared/priority";
-import { TypeRecurrenceComponent } from "@/components/shared/type-recurrence";
-import { listNeeds } from "@/services/needs";
-import { listIncomes } from "@/services/incomes";
-import { listCategories } from "@/services/categories";
+} from '@/components/ui/form-controller';
+import { Loading } from '@/components/ui/loading';
+import { useQueryFilter } from '@/hooks/use-query-filter';
+import { useRegister } from '@/hooks/use-register';
+import { listCategories } from '@/services/categories';
+import { getExpenseById, mutationExpense } from '@/services/expenses';
+import { listIncomes } from '@/services/incomes';
+import { listNeeds } from '@/services/needs';
 
-import { ExpenseRegisterModalProps } from "./types";
-import { expenseSchema, ExpenseSchemaType } from "./schema";
-import { BottomSheetBaseModal } from "../bottom-sheet-base-modal";
+import { BottomSheetBaseModal } from '../bottom-sheet-base-modal';
+import { expenseSchema, ExpenseSchemaType } from './schema';
+import { ExpenseRegisterModalProps } from './types';
 
 export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
   const { expenseId, show, onClose } = props;
@@ -34,7 +34,7 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
     schema: expenseSchema,
     defaultValues: { id: expenseId },
     mutationFn: mutationExpense,
-    queryKey: ["expenses"],
+    queryKey: ['expenses'],
     onSuccess: () => {
       onClose?.();
     },
@@ -42,50 +42,46 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
 
   const expense = useQuery({
     queryFn: () => (expenseId ? getExpenseById(expenseId) : null),
-    queryKey: ["expense", expenseId],
+    queryKey: ['expense', expenseId],
   });
 
   const category = useQueryFilter({
     fn: listCategories,
-    queryKey: ["categories"],
+    queryKey: ['categories'],
   });
 
   const need = useQueryFilter({
     fn: listNeeds,
-    queryKey: ["needs"],
+    queryKey: ['needs'],
   });
 
   const income = useQueryFilter({
     fn: listIncomes,
-    queryKey: ["incomes"],
+    queryKey: ['incomes'],
   });
 
   return (
     <BottomSheetBaseModal
-      title={expenseId ? "Editar Despesa" : "Nova Despesa"}
+      title={expenseId ? 'Editar Despesa' : 'Nova Despesa'}
       show={show}
       onClose={onClose}
       isLoading={isLoading}
     >
       {expense.isLoading && !expense.isError && <Loading />}
-      {!expense.isLoading && expense.isError && (
-        <ErrorComponent refetch={expense.refetch} />
-      )}
+      {!expense.isLoading && expense.isError && <ErrorComponent refetch={expense.refetch} />}
       {!expense.isLoading && !expense.isError && (
         <FormProvider {...form}>
-          <View className="flex flex-col gap-4 w-full px-4 py-4">
+          <View className="flex w-full flex-col gap-4 px-4 py-4">
             <SelectController
               isLoading={isLoading}
               label="Necessidade"
               control={form.control}
               name="need"
               labelField="title"
-              data={[{ id: 0, title: "Nenhuma" }, ...need.data]}
+              data={[{ id: 0, title: 'Nenhuma' }, ...need.data]}
               containerClassName="w-full"
               search
-              onSelect={(item) =>
-                form.setValue("need", item.id ? item : undefined)
-              }
+              onSelect={(item) => form.setValue('need', item.id ? item : undefined)}
             />
 
             <SelectController
@@ -93,12 +89,10 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
               control={form.control}
               name="income"
               labelField="title"
-              data={[{ id: 0, title: "Nenhuma" }, ...income.data]}
+              data={[{ id: 0, title: 'Nenhuma' }, ...income.data]}
               containerClassName="w-full"
               search
-              onSelect={(item) =>
-                form.setValue("income", item.id ? item : undefined)
-              }
+              onSelect={(item) => form.setValue('income', item.id ? item : undefined)}
               isLoading={isLoading}
             />
 
@@ -108,7 +102,7 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
               name="category.name"
               placeholder="Categoria"
               onSelectionDataChange={(item) => {
-                form.setValue("category", item);
+                form.setValue('category', item);
               }}
               data={category.data}
               isLoading={isLoading}
@@ -137,9 +131,9 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
               isLoading={isLoading}
             />
 
-            <PriorityComponent form={form} isLoading={isLoading}/>
+            <PriorityComponent form={form} isLoading={isLoading} />
 
-            <TypeRecurrenceComponent form={form} isLoading={isLoading}/>
+            <TypeRecurrenceComponent form={form} isLoading={isLoading} />
 
             <InputController
               label="Valor"
@@ -156,8 +150,8 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
               name="status"
               items={
                 [
-                  { value: "pending", title: "Pendente" },
-                  { value: "done", title: "Efectuada" },
+                  { value: 'pending', title: 'Pendente' },
+                  { value: 'done', title: 'Efectuada' },
                 ] as const
               }
               isLoading={isLoading}
@@ -167,7 +161,7 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
               disabled={isLoading}
               isLoading={isLoading}
               containerClassName="w-full"
-              className="w-full bg-primary h-10 rounded-md flex flex-row justify-center items-center"
+              className="flex h-10 w-full flex-row items-center justify-center rounded-md bg-primary"
               textClassName="text-white"
               onPress={handleSubmit}
             >

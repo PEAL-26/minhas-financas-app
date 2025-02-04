@@ -1,25 +1,24 @@
-import "react-native-gesture-handler";
-import "react-native-reanimated";
-import "../styles/global.css";
+import 'react-native-gesture-handler';
+import 'react-native-reanimated';
+import '../styles/global.css';
 
-import { useEffect, useState } from "react";
-import { Stack } from "expo-router";
-import { Text } from "react-native";
-import { useFonts } from "expo-font";
-import { StatusBar } from "expo-status-bar";
-import * as SplashScreen from "expo-splash-screen";
-import { ActivityIndicator, View } from "react-native";
-import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
+import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
+import { useFonts } from 'expo-font';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Text, View } from 'react-native';
+import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import migrations from "../../drizzle/migrations";
-import { colors } from "@/styles/colors";
-import { connectionDrizzle, openDatabase } from "@/db/connection";
+import { connectionDrizzle, openDatabase } from '@/db/connection';
+import { colors } from '@/styles/colors';
+import migrations from '../../drizzle/migrations';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,7 +29,7 @@ export default function RootLayout() {
   const migration = useMigrations(connectionDrizzle, migrations);
 
   const [fontLoaded] = useFonts({
-    SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
+    SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
   const [screenLoaded, setScreenLoaded] = useState(true);
@@ -43,7 +42,7 @@ export default function RootLayout() {
 
   if (migration?.error) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View className="flex-1 items-center justify-center">
         <Text>Oops! Migration error: {migration?.error?.message}</Text>
       </View>
     );
@@ -51,9 +50,9 @@ export default function RootLayout() {
 
   if (!fontLoaded || !screenLoaded || !migration.success) {
     return (
-      <View className="flex-1 justify-center items-center ">
+      <View className="flex-1 items-center justify-center">
         <ActivityIndicator color={colors.primary.DEFAULT} size="small" />
-        <StatusBar style="dark" translucent animated backgroundColor="transparent"  />
+        <StatusBar style="dark" translucent animated backgroundColor="transparent" />
       </View>
     );
   }

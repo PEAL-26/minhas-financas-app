@@ -1,5 +1,5 @@
-import { db } from "@/db/connection";
-import { OperationTypes } from "@/types";
+import { db } from '@/db/connection';
+import { OperationTypes } from '@/types';
 
 export type ListNeedsParams = {
   query?: string;
@@ -19,7 +19,7 @@ export type ListNeedsResponseData = {
 
 export async function listNeeds(params?: ListNeedsParams) {
   const { page, size, query } = params || {};
-  return db.listPaginate<ListNeedsResponseData>("needs", {
+  return db.listPaginate<ListNeedsResponseData>('needs', {
     select: {
       id: true,
       title: true,
@@ -30,8 +30,8 @@ export async function listNeeds(params?: ListNeedsParams) {
     },
     include: {
       categories: {
-        singular: "category",
-        type: "LEFT",
+        singular: 'category',
+        type: 'LEFT',
         select: {
           name: true,
         },
@@ -42,9 +42,9 @@ export async function listNeeds(params?: ListNeedsParams) {
     where: {
       name: {
         value: query,
-        op: "like",
+        op: 'like',
       },
     },
-    orderBy: [{ "needs.created_at": "desc" }],
+    orderBy: [{ 'needs.created_at': 'desc' }],
   });
 }

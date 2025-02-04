@@ -1,7 +1,7 @@
-import { db } from "@/db";
-import { alert } from "@/helpers/alert-message";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { db } from '@/db/connection';
+import { alert } from '@/helpers/alert-message';
+import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 
 interface Props {
   tableName: string;
@@ -19,8 +19,8 @@ export function useRemove(props: Props) {
     if (isLoading) return;
 
     const confirm = await alert(
-      "Remover este item?",
-      "Não poderá reverter esta acção, continuar mesmo assim?"
+      'Remover este item?',
+      'Não poderá reverter esta ação, continuar mesmo assim?',
     );
 
     try {

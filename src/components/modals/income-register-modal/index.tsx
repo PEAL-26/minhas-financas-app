@@ -1,26 +1,26 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { View } from "react-native";
-import { FormProvider } from "react-hook-form";
+import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+import { FormProvider } from 'react-hook-form';
+import { View } from 'react-native';
 
-import { Button } from "@/components/ui/button";
-import { useRegister } from "@/hooks/use-register";
+import { Button } from '@/components/ui/button';
+import { useRegister } from '@/hooks/use-register';
 
+import { ErrorComponent } from '@/components/ui/error';
 import {
   InputController,
   InputDatetimeController,
   SwitchToggleTextController,
   TextareaController,
-} from "@/components/ui/form-controller";
-import { Loading } from "@/components/ui/loading";
-import { ErrorComponent } from "@/components/ui/error";
-import { getIncomeById, mutationIncome } from "@/services/incomes";
+} from '@/components/ui/form-controller';
+import { Loading } from '@/components/ui/loading';
+import { getIncomeById, mutationIncome } from '@/services/incomes';
 
-import { IncomeRegisterModalProps } from "./types";
-import { incomeSchema, IncomeSchemaType } from "./schema";
-import { BottomSheetBaseModal } from "../bottom-sheet-base-modal";
-import { PriorityComponent } from "@/components/shared/priority";
-import { TypeRecurrenceComponent } from "@/components/shared/type-recurrence";
+import { PriorityComponent } from '@/components/shared/priority';
+import { TypeRecurrenceComponent } from '@/components/shared/type-recurrence';
+import { BottomSheetBaseModal } from '../bottom-sheet-base-modal';
+import { incomeSchema, IncomeSchemaType } from './schema';
+import { IncomeRegisterModalProps } from './types';
 
 export function IncomeRegisterModal(props: IncomeRegisterModalProps) {
   const { incomeId, show, onClose } = props;
@@ -29,7 +29,7 @@ export function IncomeRegisterModal(props: IncomeRegisterModalProps) {
     schema: incomeSchema,
     defaultValues: { id: incomeId },
     mutationFn: mutationIncome,
-    queryKey: ["incomes"],
+    queryKey: ['incomes'],
     onSuccess: () => {
       onClose?.();
     },
@@ -37,23 +37,21 @@ export function IncomeRegisterModal(props: IncomeRegisterModalProps) {
 
   const income = useQuery({
     queryFn: () => (incomeId ? getIncomeById(incomeId) : null),
-    queryKey: ["income", incomeId],
+    queryKey: ['income', incomeId],
   });
 
   return (
     <BottomSheetBaseModal
-      title={incomeId ? "Editar Renda" : "Nova Renda"}
+      title={incomeId ? 'Editar Renda' : 'Nova Renda'}
       show={show}
       onClose={onClose}
       isLoading={isLoading}
     >
       {income.isLoading && !income.isError && <Loading />}
-      {!income.isLoading && income.isError && (
-        <ErrorComponent refetch={income.refetch} />
-      )}
+      {!income.isLoading && income.isError && <ErrorComponent refetch={income.refetch} />}
       {!income.isLoading && !income.isError && (
         <FormProvider {...form}>
-          <View className="flex flex-col gap-3 w-full px-3 py-4">
+          <View className="flex w-full flex-col gap-3 px-3 py-4">
             <InputController
               label="Título"
               placeholder="Título"
@@ -107,8 +105,8 @@ export function IncomeRegisterModal(props: IncomeRegisterModalProps) {
               name="status"
               items={
                 [
-                  { value: "pending", title: "Pendente" },
-                  { value: "done", title: "Efectuada" },
+                  { value: 'pending', title: 'Pendente' },
+                  { value: 'done', title: 'Efectuada' },
                 ] as const
               }
               isLoading={isLoading}
@@ -117,7 +115,7 @@ export function IncomeRegisterModal(props: IncomeRegisterModalProps) {
             <Button
               disabled={isLoading}
               containerClassName="w-full"
-              className="w-full bg-primary h-10 rounded-md flex flex-row justify-center items-center"
+              className="flex h-10 w-full flex-row items-center justify-center rounded-md bg-primary"
               textClassName="text-white"
               onPress={handleSubmit}
             >

@@ -1,11 +1,12 @@
-import { AutocompleteInput } from "react-native-autocomplete-input";
+import { AutocompleteInput } from 'react-native-autocomplete-input';
 
-import { colors } from "@/styles/colors";
-import { ScrollView } from "react-native";
-import { FlatListItem } from "./flat-list-item";
-import { styles } from "./styles";
-import { InputAutocompleteProps } from "./types";
-import { useInputAutocomplete } from "./use-input-autocomplete";
+import { colors } from '@/styles/colors';
+import { ElementRef, forwardRef } from 'react';
+import { ScrollView } from 'react-native';
+import { FlatListItem } from './flat-list-item';
+import { styles } from './styles';
+import { InputAutocompleteProps } from './types';
+import { useInputAutocomplete } from './use-input-autocomplete';
 
 /**
  * Componente InputAutocomplete
@@ -29,15 +30,11 @@ import { useInputAutocomplete } from "./use-input-autocomplete";
  *   queryFn={itsQueryFunction}
  * />
  */
-export function InputAutocomplete<TData extends object = any>(
-  props: InputAutocompleteProps<TData>
-) {
-  const {
-    valueProperty = "id" as keyof TData,
-    labelProperty = "name" as keyof TData,
-    placeholder,
-    data,
-  } = props;
+export const InputAutocomplete = forwardRef<
+  ElementRef<typeof AutocompleteInput>,
+  InputAutocompleteProps<any>
+>((props, ref) => {
+  const { valueProperty = 'id', labelProperty = 'name', placeholder, data } = props;
   const {
     isLoading,
     /*suggestions,*/ query,
@@ -55,19 +52,15 @@ export function InputAutocomplete<TData extends object = any>(
         data={isFocused ? data || [] : []}
         value={query}
         onChangeText={setQuery}
-        placeholder={isLoading ? "Carregando..." : placeholder}
-        flatListProps={FlatListItem<TData>({
+        placeholder={isLoading ? 'Carregando...' : placeholder}
+        flatListProps={FlatListItem<any>({
           onPress: handleSelectionChange,
           valueProperty,
           labelProperty,
         })}
         selectionColor={colors.primary.DEFAULT}
-        style={[
-          styles.input,
-          props.editable === false && styles.disabled,
-          props.style,
-        ]}
-        className="h-8 web:flex web:w-full rounded-md border border-input bg-background px-3 text-xs placeholder:text-muted-foreground web:ring-offset-background file:border-0 file:bg-transparent file:font-medium web:focus-visible:outline-none web:focus-visible:ring-0 web:focus-visible:ring-primary web:focus-visible:ring-offset-0"
+        style={[styles.input, props.editable === false && styles.disabled, props.style]}
+        className="h-8 rounded-md border border-input bg-background px-3 text-xs file:border-0 file:bg-transparent file:font-medium placeholder:text-muted-foreground web:flex web:w-full web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-0 web:focus-visible:ring-primary web:focus-visible:ring-offset-0"
         placeholderTextColor="#888"
         containerStyle={styles.container}
         listContainerStyle={styles.listContainer}
@@ -76,13 +69,15 @@ export function InputAutocomplete<TData extends object = any>(
         onBlur={() => setIsFocused(false)}
         onSelectionChange={(data) => {
           if (data) {
-            console.log("select", data);
+            console.log('select', data);
           }
         }}
         onChange={(e) => {
-          console.log("change");
+          console.log('change');
         }}
       />
     </ScrollView>
   );
-}
+});
+
+InputAutocomplete.displayName = 'InputAutocomplete';

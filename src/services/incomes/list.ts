@@ -1,5 +1,5 @@
-import { db } from "@/db/connection";
-import { OperationTypes, Status } from "@/types";
+import { db } from '@/db/connection';
+import { OperationTypes, Status } from '@/types';
 
 export type ListIncomesParams = {
   query?: string;
@@ -19,7 +19,7 @@ export type ListIncomesResponseData = {
 
 export async function listIncomes(params?: ListIncomesParams) {
   const { page, size, query } = params || {};
-  return db.listPaginate<ListIncomesResponseData>("incomes", {
+  return db.listPaginate<ListIncomesResponseData>('incomes', {
     select: {
       id: true,
       title: true,
@@ -34,9 +34,9 @@ export async function listIncomes(params?: ListIncomesParams) {
     where: {
       title: {
         value: query,
-        op: "like",
+        op: 'like',
       },
     },
-    orderBy: [{ "incomes.created_at": "desc" }],
+    orderBy: [{ 'incomes.created_at': 'desc' }],
   });
 }

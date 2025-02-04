@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
-import { FlatList, ScrollView, View } from "react-native";
-import { Text } from "./text";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import { ReactNode } from 'react';
+import { FlatList, View } from 'react-native';
+import { Text } from './text';
 
 export type Column<T> = {
   name: keyof T;
@@ -23,18 +23,15 @@ interface Props<T = { id: string }> {
 }
 
 export function DataTable<T>(props: Props<T>) {
-  const { response, columns, fieldId = "id" as keyof T } = props;
+  const { response, columns, fieldId = 'id' as keyof T } = props;
 
   return (
     <>
       {/* <View className="bg-white rounded flex-1"> */}
-      <View className="border-b-gray-200 border-b p-2 bg-white rounded-t">
+      <View className="rounded-t border-b border-b-gray-200 bg-white p-2">
         {columns.map((column, key) => (
-          <Text
-            key={key}
-            className={cn("font-bold uppercase text-sm", column?.className)}
-          >
-            {column?.title || ""}
+          <Text key={key} className={cn('text-sm font-bold uppercase', column?.className)}>
+            {column?.title || ''}
           </Text>
         ))}
       </View>
@@ -50,14 +47,14 @@ export function DataTable<T>(props: Props<T>) {
               };
 
               return (
-                <View key={key} className={cn("", column?.className)}>
-                  <Text className={cn("text-xs", className)}>{row}</Text>
+                <View key={key} className={cn('', column?.className)}>
+                  <Text className={cn('text-xs', className)}>{row}</Text>
                 </View>
               );
             })}
           </View>
         )}
-        contentContainerStyle={{ backgroundColor: "#fff" }}
+        contentContainerStyle={{ backgroundColor: '#fff' }}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       />

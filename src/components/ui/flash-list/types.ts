@@ -1,8 +1,5 @@
-import { QueryPaginationResponse } from "@/hooks/use-query-pagination";
-import {
-  RenderTarget,
-  FlashListProps as ShopifyFlashListProps,
-} from "@shopify/flash-list";
+import { QueryPaginationResponse } from '@/hooks/use-query-pagination';
+import { RenderTarget, FlashListProps as ShopifyFlashListProps } from '@shopify/flash-list';
 
 export type FlashListProps<T> = ShopifyFlashListProps<T>;
 
@@ -24,11 +21,7 @@ export interface FlashListLoaderProps {
   dataLength?: number;
 }
 
-type Component =
-  | React.ComponentType<any>
-  | React.ReactElement
-  | null
-  | undefined;
+type Component = React.ComponentType<any> | React.ReactElement | null | undefined;
 
 export interface FlashListTemplateProps<T> {
   header?: Component;

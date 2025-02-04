@@ -1,51 +1,38 @@
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  forwardRef,
-  useState,
-} from "react";
-import * as CheckboxPrimitive from "@rn-primitives/checkbox";
-import { Platform } from "react-native";
-import { cn } from "@/lib/utils";
-import { Check } from "lucide-react-native";
-import { View } from "react-native";
-import { Label } from "./label";
+import { cn } from '@/lib/utils';
+import * as CheckboxPrimitive from '@rn-primitives/checkbox';
+import { Check } from 'lucide-react-native';
+import { ComponentPropsWithoutRef, ElementRef, forwardRef, useState } from 'react';
+import { Platform, View } from 'react-native';
+import { Label } from './label';
 
 type CheckboxProps = Omit<
   ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>,
-  "checked" | "onCheckedChange"
+  'checked' | 'onCheckedChange'
 > & {
   checked?: boolean;
   onCheckedChange?(checked: boolean): void;
 };
 
-const Checkbox = forwardRef<
-  ElementRef<typeof CheckboxPrimitive.Root>,
-  CheckboxProps
->(({ className, checked = false, onCheckedChange, ...props }, ref) => {
-  return (
-    <CheckboxPrimitive.Root
-      ref={ref}
-      className={cn(
-        "web:peer h-4 w-4 native:h-[20] native:w-[20] shrink-0 rounded-sm native:rounded border border-gray-300 web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-white",
-        className
-      )}
-      checked={checked}
-      onCheckedChange={(checked) => onCheckedChange?.(checked)}
-      {...props}
-    >
-      <CheckboxPrimitive.Indicator
-        className={cn("items-center justify-center h-full w-full")}
+const Checkbox = forwardRef<ElementRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(
+  ({ className, checked = false, onCheckedChange, ...props }, ref) => {
+    return (
+      <CheckboxPrimitive.Root
+        ref={ref}
+        className={cn(
+          'web:peer native:h-[20] native:w-[20] native:rounded h-4 w-4 shrink-0 rounded-sm border border-gray-300 bg-white disabled:cursor-not-allowed disabled:opacity-50 web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
+          className,
+        )}
+        checked={checked}
+        onCheckedChange={(checked) => onCheckedChange?.(checked)}
+        {...props}
       >
-        <Check
-          size={12}
-          strokeWidth={Platform.OS === "web" ? 2.5 : 3.5}
-          color="#000"
-        />
-      </CheckboxPrimitive.Indicator>
-    </CheckboxPrimitive.Root>
-  );
-});
+        <CheckboxPrimitive.Indicator className={cn('h-full w-full items-center justify-center')}>
+          <Check size={12} strokeWidth={Platform.OS === 'web' ? 2.5 : 3.5} color="#000" />
+        </CheckboxPrimitive.Indicator>
+      </CheckboxPrimitive.Root>
+    );
+  },
+);
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 
 function CheckboxWithLabel({
@@ -69,15 +56,15 @@ function CheckboxWithLabel({
   };
 
   return (
-    <View className={"flex-row gap-2 items-center"}>
+    <View className={'flex-row items-center gap-2'}>
       <Checkbox
-        aria-labelledby={"label-for-" + value || label}
+        aria-labelledby={'label-for-' + value || label}
         checked={currentChecked}
         onCheckedChange={handleChecked}
       />
       <Label
         className={labelClassName}
-        nativeID={"label-for-" + value || label}
+        nativeID={'label-for-' + value || label}
         onPress={() => handleChecked(!currentChecked)}
       >
         {label}

@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronsUpDown } from "lucide-react-native";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import { ChevronsUpDown } from 'lucide-react-native';
+import { useEffect, useMemo, useState } from 'react';
 
-import { Text } from "./text";
-import { Button } from "./button";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, View } from 'react-native';
+import { Button } from './button';
+import { Text } from './text';
 
 type ItemType = {
   id: string;
@@ -34,7 +34,7 @@ export function Select<T extends ItemType>(props: Props<T>) {
     isLoading,
     openOutside = false,
     onOpenOutside,
-    placeholder = "Selecione um item",
+    placeholder = 'Selecione um item',
     className,
     containerClassName,
   } = props;
@@ -75,32 +75,27 @@ export function Select<T extends ItemType>(props: Props<T>) {
   const title = currentItem?.title
     ? currentItem?.title
     : defaultItem
-    ? defaultItem.title
-    : placeholder;
+      ? defaultItem.title
+      : placeholder;
 
   return (
     <>
       <Button
         className={cn(
-          "h-12 px-3 text-xs w-full rounded-md border border-input bg-background flex-row items-center justify-between",
-          className
+          'h-12 w-full flex-row items-center justify-between rounded-md border border-input bg-background px-3 text-xs',
+          className,
         )}
-        containerClassName={cn("w-full", containerClassName)}
+        containerClassName={cn('w-full', containerClassName)}
         onPress={handleOpen}
       >
         <>
           <Text
-            className={cn(
-              "text-xs",
-              !currentItem?.title && !defaultItem?.title && "text-gray-500"
-            )}
+            className={cn('text-xs', !currentItem?.title && !defaultItem?.title && 'text-gray-500')}
           >
             {title}
           </Text>
-          <View className="flex-row gap-2 items-center">
-            {isLoading && (
-              <ActivityIndicator color="#9ca3af" animating size={14} />
-            )}
+          <View className="flex-row items-center gap-2">
+            {isLoading && <ActivityIndicator color="#9ca3af" animating size={14} />}
             <ChevronsUpDown size={14} color="#9ca3af" />
           </View>
         </>

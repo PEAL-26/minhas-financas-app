@@ -1,7 +1,4 @@
-export function getValueObject<T>(
-  object: Record<string, any>,
-  property: string,
-): T | undefined {
+export function getValueObject<T>(object: Record<string, any>, property: string): T | undefined {
   if (object && typeof object === 'object') {
     return object[property];
   }

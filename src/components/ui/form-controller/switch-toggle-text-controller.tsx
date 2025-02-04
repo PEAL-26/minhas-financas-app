@@ -1,16 +1,16 @@
-import { View } from "react-native";
-import { Control, FieldValues, Path } from "react-hook-form";
+import { Control, FieldValues, Path } from 'react-hook-form';
+import { View } from 'react-native';
 
-import { SwitchToggleText, SwitchToggleTextProps } from "../switch-toggle-text";
-import { Text } from "../text";
-import { FormController } from "./form-controller";
-import { Label } from "../label";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import { Label } from '../label';
+import { SwitchToggleText, SwitchToggleTextProps } from '../switch-toggle-text';
+import { Text } from '../text';
+import { FormController } from './form-controller';
 
 type Props<
   TFieldValues extends FieldValues = FieldValues,
   TContext = any,
-  TValue = any
+  TValue = any,
 > = SwitchToggleTextProps<TValue> & {
   label?: string;
   isLoading?: boolean;
@@ -23,19 +23,14 @@ type Props<
 export function SwitchToggleTextController<
   TFieldValues extends FieldValues = FieldValues,
   TContext = any,
-  TValue = any
+  TValue = any,
 >(props: Props<TFieldValues, TContext, TValue>) {
-  const { name, control, defaultValue, label, containerClassName, ...rest } =
-    props;
+  const { name, control, defaultValue, label, containerClassName, ...rest } = props;
   return (
     <FormController defaultValue={defaultValue} name={name} control={control}>
       {({ field, fieldState }) => (
-        <View className={cn("flex flex-col", containerClassName)}>
-          <View
-            className={cn(
-              "flex flex-row items-center gap-2 flex-1 justify-between"
-            )}
-          >
+        <View className={cn('flex flex-col', containerClassName)}>
+          <View className={cn('flex flex-1 flex-row items-center justify-between gap-2')}>
             {label && <Label>{label}</Label>}
             <SwitchToggleText
               {...rest}
@@ -44,9 +39,7 @@ export function SwitchToggleTextController<
             />
           </View>
           {fieldState?.error?.message && (
-            <Text className="text-xs text-red-500 mt-1">
-              {fieldState?.error?.message}
-            </Text>
+            <Text className="mt-1 text-xs text-red-500">{fieldState?.error?.message}</Text>
           )}
         </View>
       )}

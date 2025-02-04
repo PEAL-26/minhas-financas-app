@@ -1,11 +1,10 @@
-import { colors } from "@/styles/colors";
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   inputContainer: {
     // flexDirection: "row",
     // alignItems: "center",
-    borderColor: "transparent",
+    borderColor: 'transparent',
     height: 40, // h-8
     borderRadius: 6, // rounded-md
     // backgroundColor: "#fff",
@@ -18,11 +17,11 @@ export const styles = StyleSheet.create({
   },
   input: {
     height: 40, // h-8
-    width: "100%",
+    width: '100%',
     borderRadius: 6, // rounded-md
     borderWidth: 1, // border
-    borderColor: "#e4e4e7", // border-input (valor de exemplo)
-    backgroundColor: "#fff", // bg-background (valor de exemplo)
+    borderColor: '#e4e4e7', // border-input (valor de exemplo)
+    backgroundColor: '#fff', // bg-background (valor de exemplo)
     paddingHorizontal: 12, // px-3
     fontSize: 12, // text-xs,
   },
@@ -31,7 +30,7 @@ export const styles = StyleSheet.create({
   },
   listContainer: {
     borderRadius: 4,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     elevation: 2,
     // shadowColor: '#000',
     // // shadowOffset: { width: 0, height: 10 },
@@ -40,10 +39,10 @@ export const styles = StyleSheet.create({
   },
   container: {
     gap: 8,
-    width: "100%",
+    width: '100%',
   },
   scrollView: {
-    flexDirection: "column",
-    width: "100%",
+    flexDirection: 'column',
+    width: '100%',
   },
 });

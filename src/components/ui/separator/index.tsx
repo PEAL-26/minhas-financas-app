@@ -1,2 +1,2 @@
-export * from "./separator";
-export * from "./separator-with-label";
+export * from './separator';
+export * from './separator-with-label';

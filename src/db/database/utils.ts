@@ -6,21 +6,21 @@ import {
   DatabaseWhere,
   DatabaseWhereField,
   ListPaginateConfigs,
-} from "./types";
+} from './types';
 
 export function generateQueryFields(select?: DatabaseConfigSelect) {
-  if (!select) return ["*"];
+  if (!select) return ['*'];
   let selectFields: string[] = [];
   const fields = Object.entries(select);
 
   for (const [field, value] of fields) {
-    if (typeof value === "boolean") {
+    if (typeof value === 'boolean') {
       selectFields.push(field);
       continue;
     }
-    if (typeof value === "object") {
+    if (typeof value === 'object') {
       const { as } = value;
-      selectFields.push(`${field}${as ? ` AS ${as}` : ""}`);
+      selectFields.push(`${field}${as ? ` AS ${as}` : ''}`);
       continue;
     }
   }
@@ -29,17 +29,17 @@ export function generateQueryFields(select?: DatabaseConfigSelect) {
 }
 
 export function generateWhereClause(where?: DatabaseWhere): string {
-  if (!where) return "";
+  if (!where) return '';
 
   const conditions = Object.entries(where)
     .map(([key, condition]) => {
       let column = key;
       let value: DatabaseWhereField = condition;
-      let op = "equal";
-      if (typeof condition === "object") {
+      let op = 'equal';
+      if (typeof condition === 'object') {
         column = condition.as || key;
         value = condition.value !== undefined ? condition.value : undefined;
-        op = condition.op || "equal";
+        op = condition.op || 'equal';
       }
 
       if (value !== undefined) {
@@ -47,14 +47,14 @@ export function generateWhereClause(where?: DatabaseWhere): string {
           equal: `${column} = '${value}'`,
           like: `LOWER(${column}) LIKE LOWER('%${value}%')`,
         }[op];
-        return where || "";
+        return where || '';
       }
 
-      return "";
+      return '';
     })
     .filter(Boolean);
 
-  return conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+  return conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 }
 
 let joins: string[] = [];
@@ -65,7 +65,7 @@ export function generateIncludes(
   tableMain: string,
   include?: DatabaseInclude,
   recursive = false,
-  clear = true
+  clear = true,
 ) {
   if (clear) {
     joins = [];
@@ -88,12 +88,12 @@ export function generateIncludes(
         ? generateQueryFields(select).map((field) => `${as || table}.${field}`)
         : [];
 
-      const tableName = `${table} ${as ? `AS ${as}` : ""}`.trim();
+      const tableName = `${table} ${as ? `AS ${as}` : ''}`.trim();
 
       const referenceLeft = left || `${as || table}.id`;
       const referenceRight = right || `${tableMain}.${singular}_id`;
       const join = `${
-        type || ""
+        type || ''
       } JOIN ${tableName} ON ${referenceLeft} = ${referenceRight} `.trim();
 
       tables.push(as || table);
@@ -106,7 +106,7 @@ export function generateIncludes(
     }
   }
 
-  return { fields, joins: joins.join("\n"), tables };
+  return { fields, joins: joins.join('\n'), tables };
 }
 
 export function serialize(data: any, tableNames: string[]) {
@@ -115,7 +115,7 @@ export function serialize(data: any, tableNames: string[]) {
 
   for (const [field, value] of Object.entries(data)) {
     if (field.startsWith(mainTable)) {
-      const fieldReplaced = field.replaceAll(`${mainTable}_`, "");
+      const fieldReplaced = field.replaceAll(`${mainTable}_`, '');
       obj[fieldReplaced] = value;
     } else {
       const restTables = tableNames.slice(1);
@@ -127,7 +127,7 @@ export function serialize(data: any, tableNames: string[]) {
       if (restTables.length) {
         for (const table of restTables) {
           if (field.startsWith(table)) {
-            const fieldReplaced = field.replaceAll(`${table}_`, "");
+            const fieldReplaced = field.replaceAll(`${table}_`, '');
             if (field === `${table}_${fieldReplaced}`) {
               setNestedValue(obj, `${table}.${fieldReplaced}`, value);
               break;
@@ -144,18 +144,18 @@ export function serialize(data: any, tableNames: string[]) {
 export function fieldsMap(fields: string[], tables: string[]) {
   const newFields = [];
   for (const field of fields) {
-    if (field === "*" && tables.length === 1) {
+    if (field === '*' && tables.length === 1) {
       newFields.push(`${tables[0]}.*`);
       break;
     }
-    const fieldSplitted = field.split(" AS ");
+    const fieldSplitted = field.split(' AS ');
     const main = fieldSplitted[0]?.trim();
     const fieldAs = fieldSplitted[1]?.trim();
-    const [table, _field] = (fieldAs || main).split(".");
+    const [table, _field] = (fieldAs || main).split('.');
     const tableFound = tables.find((t) => t === table);
 
     if (tableFound) {
-      if (_field === "*") {
+      if (_field === '*') {
         newFields.push(`${table}.*`);
       } else {
         const newField = `${table}_${_field}`;
@@ -170,15 +170,11 @@ export function fieldsMap(fields: string[], tables: string[]) {
     }
   }
 
-  return newFields.join(", ");
+  return newFields.join(', ');
 }
 
-export function setNestedValue(
-  obj: Record<string, any>,
-  path: string,
-  value: any
-) {
-  const keys = path.split(".");
+export function setNestedValue(obj: Record<string, any>, path: string, value: any) {
+  const keys = path.split('.');
   let current = obj;
 
   keys.forEach((key, index) => {
@@ -196,11 +192,9 @@ export function setNestedValue(
   return obj;
 }
 
-export function generateOrderByClause(
-  orderBy?: Record<string, "asc" | "desc">[]
-): string {
+export function generateOrderByClause(orderBy?: Record<string, 'asc' | 'desc'>[]): string {
   if (!orderBy || orderBy.length === 0) {
-    return "";
+    return '';
   }
 
   const orderByClauses = orderBy
@@ -208,12 +202,12 @@ export function generateOrderByClause(
       const [column, direction] = Object.entries(item)[0];
       return `${column} ${direction.toUpperCase()}`;
     })
-    .join(", ");
+    .join(', ');
 
   return `ORDER BY ${orderByClauses}`;
 }
 
-const NOT_STRING_TYPES = ["boolean", "number"];
+const NOT_STRING_TYPES = ['boolean', 'number'];
 
 export function generateCreateFields(data: Record<string, any>) {
   let fields: string[] = [];
@@ -230,7 +224,7 @@ export function generateCreateFields(data: Record<string, any>) {
       continue;
     }
 
-    if (typeof value === "object") {
+    if (typeof value === 'object') {
       values.push(JSON.stringify(value));
       continue;
     }
@@ -248,11 +242,11 @@ export function generateCreateFields(data: Record<string, any>) {
 }
 
 export function join(array: any[], separator?: string) {
-  let data: string = "";
+  let data: string = '';
 
   let index = 1;
   for (const value of array) {
-    let _separator = array.length > index ? separator || "" : "";
+    let _separator = array.length > index ? separator || '' : '';
     data += `${value}${_separator}`;
     index++;
   }
@@ -262,99 +256,82 @@ export function join(array: any[], separator?: string) {
 
 export function generateCreateTableScript(
   tableName: string,
-  columns: DatabaseCreateTableColumns
+  columns: DatabaseCreateTableColumns,
 ): string {
   // Validação básica
   if (!tableName || !columns || Object.keys(columns).length === 0) {
-    throw new Error("O nome da tabela e as colunas são obrigatórios.");
+    throw new Error('O nome da tabela e as colunas são obrigatórios.');
   }
 
   // Gerar as definições de colunas
 
   const constraints: string[] = [];
-  const columnsDefinition = Object.entries(columns).map(
-    ([columnName, attributes]) => {
-      if (!DATABASE_COLUMNS_TYPE_ENUM[attributes.dataType]) {
-        throw new Error(`Tipo de dado inválido: ${attributes.dataType}`);
-      }
-
-      if (attributes?.pk) {
-        constraints.push(`PRIMARY KEY (\`${columnName}\`)`);
-      }
-
-      if (attributes?.fk) {
-        /* TODO Implementar depois */
-        constraints.push(
-          `CONSTRAINT fk_${attributes.fk.table} FOREIGN KEY (\`${columnName}\`) REFERENCES \`${attributes.fk.table}\` (\`${attributes.fk.reference}\`)`
-        );
-      }
-
-      const notNull = attributes?.pk
-        ? "NOT NULL"
-        : attributes?.notNull
-        ? "NOT NULL"
-        : "NULL";
-
-      const defaultValue =
-        attributes?.defaultValue !== undefined
-          ? `DEFAULT ${attributes.defaultValue}`
-          : "";
-
-      const autoIncrement = "" //attributes?.autoIncrement ? `AUTO_INCREMENT` : "";
-
-      return `\`${columnName}\` ${
-        DATABASE_COLUMNS_TYPE_ENUM[attributes.dataType]
-      } ${autoIncrement} ${notNull} ${defaultValue}`.trim();
+  const columnsDefinition = Object.entries(columns).map(([columnName, attributes]) => {
+    if (!DATABASE_COLUMNS_TYPE_ENUM[attributes.dataType]) {
+      throw new Error(`Tipo de dado inválido: ${attributes.dataType}`);
     }
-  );
+
+    if (attributes?.pk) {
+      constraints.push(`PRIMARY KEY (\`${columnName}\`)`);
+    }
+
+    if (attributes?.fk) {
+      /* TODO Implementar depois */
+      constraints.push(
+        `CONSTRAINT fk_${attributes.fk.table} FOREIGN KEY (\`${columnName}\`) REFERENCES \`${attributes.fk.table}\` (\`${attributes.fk.reference}\`)`,
+      );
+    }
+
+    const notNull = attributes?.pk ? 'NOT NULL' : attributes?.notNull ? 'NOT NULL' : 'NULL';
+
+    const defaultValue =
+      attributes?.defaultValue !== undefined ? `DEFAULT ${attributes.defaultValue}` : '';
+
+    const autoIncrement = ''; //attributes?.autoIncrement ? `AUTO_INCREMENT` : "";
+
+    return `\`${columnName}\` ${
+      DATABASE_COLUMNS_TYPE_ENUM[attributes.dataType]
+    } ${autoIncrement} ${notNull} ${defaultValue}`.trim();
+  });
 
   const definitions = [...columnsDefinition, ...constraints];
   // Construir o script de criação da tabela
-  const createTableScript = `CREATE TABLE IF NOT EXISTS ${tableName} (${definitions.join(
-    ", "
-  )});`;
+  const createTableScript = `CREATE TABLE IF NOT EXISTS ${tableName} (${definitions.join(', ')});`;
 
   return createTableScript;
 }
 
 export function generateFn(fn?: Record<string, string>) {
-  if (!fn) return "";
+  if (!fn) return '';
 
   let generate = [];
   for (const [field, value] of Object.entries(fn)) {
     generate.push(`${value} AS ${field}`);
   }
 
-  return generate.join(", ");
+  return generate.join(', ');
 }
 
 export function generateGroupBy(group?: string[]) {
-  if (!group || !group.length) return "";
-  return `GROUP BY ${group.join(", ")}`;
+  if (!group || !group.length) return '';
+  return `GROUP BY ${group.join(', ')}`;
 }
 
-export function generateQuerySql(
-  tableName: string,
-  configs?: ListPaginateConfigs
-) {
+export function generateQuerySql(tableName: string, configs?: ListPaginateConfigs) {
   const { select, where, include, orderBy, groupBy, fn } = configs || {};
   const fields = generateQueryFields(select);
   const includes = generateIncludes(tableName, include);
 
   const whereClause = generateWhereClause(where);
   const includesFields =
-    includes.fields.length > 0
-      ? `, ${fieldsMap(includes.fields, includes.tables)}`
-      : "";
+    includes.fields.length > 0 ? `, ${fieldsMap(includes.fields, includes.tables)}` : '';
   const fns = generateFn(fn);
   const orderByClause = generateOrderByClause(orderBy);
   const groups = generateGroupBy(groupBy);
 
   const baseQuery = `SELECT ${fieldsMap(fields, [tableName])}${includesFields}${
-    fns ? `, ${fns}` : ""
-  } FROM ${tableName} ${
-    includes.joins
-  } ${whereClause} ${groups} ${orderByClause}`.trim();
+    fns ? `, ${fns}` : ''
+  } FROM ${tableName} ${includes.joins} ${whereClause} ${groups} ${orderByClause}`.trim();
 
   return { baseQuery, includes };
 }

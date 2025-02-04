@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect } from "react";
-import { Pressable, StyleSheet } from "react-native";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Pressable, StyleSheet } from 'react-native';
 import Animated, {
   interpolate,
   interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-} from "react-native-reanimated";
-import { useState } from "react";
+} from 'react-native-reanimated';
 
 type Item<TValue> = { value: TValue; title: string };
 
@@ -17,17 +16,22 @@ export interface SwitchToggleTextProps<TValue> {
   value?: TValue;
   defaultItem?: Item<TValue>;
   defaultValue?: TValue;
+  duration?: number;
   onChangeValue?(value: TValue): void;
+  trackColors?: { on?: string; off?: string };
 }
 
-export function SwitchToggleText<Tvalue = any>(
-  props: SwitchToggleTextProps<Tvalue>
-) {
-  const { items, item, value, defaultValue, defaultItem, onChangeValue } =
-    props;
-
-  const duration = 400;
-  const trackColors = { on: "#22c55e", off: "#f97316" };
+export function SwitchToggleText<Tvalue = any>(props: SwitchToggleTextProps<Tvalue>) {
+  const {
+    items,
+    item,
+    value,
+    defaultValue,
+    defaultItem,
+    onChangeValue,
+    duration = 400,
+    trackColors = { on: '#22c55e', off: '#f97316' },
+  } = props;
 
   const isOn = useSharedValue(false);
 
@@ -57,7 +61,7 @@ export function SwitchToggleText<Tvalue = any>(
         }
       }
     },
-    [isOn, items, onChangeValue]
+    [isOn, items, onChangeValue],
   );
 
   const handlePress = () => {
@@ -68,7 +72,7 @@ export function SwitchToggleText<Tvalue = any>(
     const color = interpolateColor(
       Number(isOn.get()),
       [0, 1],
-      [trackColors.off, trackColors.on]
+      [trackColors.off || '#f97316', trackColors.on || '#22c55e'],
     );
     const colorValue = withTiming(color, { duration });
 
@@ -82,12 +86,7 @@ export function SwitchToggleText<Tvalue = any>(
     const moveValue = interpolate(
       Number(isOn.get()),
       [0, 1],
-      [
-        0,
-        trackWidth.get() -
-          trackHeight.get() -
-          (thumbWidth.get() - thumbHeight.get()),
-      ]
+      [0, trackWidth.get() - trackHeight.get() - (thumbWidth.get() - thumbHeight.get())],
     );
     const translateValue = withTiming(moveValue, { duration });
 
@@ -123,9 +122,7 @@ export function SwitchToggleText<Tvalue = any>(
           }}
           style={[switchStyles.thumb, thumbAnimatedStyle]}
         >
-          <Animated.Text className="text-xs font-medium">
-            {currentItem?.title}
-          </Animated.Text>
+          <Animated.Text className="text-xs font-medium">{currentItem?.title}</Animated.Text>
         </Animated.View>
       </Animated.View>
     </Pressable>
@@ -134,20 +131,20 @@ export function SwitchToggleText<Tvalue = any>(
 
 const switchStyles = StyleSheet.create({
   track: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
     height: 40,
     padding: 5,
     width: 130,
   },
   thumb: {
-    height: "100%",
-    backgroundColor: "white",
+    height: '100%',
+    backgroundColor: 'white',
     paddingTop: 4,
     paddingBottom: 4,
     paddingLeft: 12,
     paddingRight: 12,
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

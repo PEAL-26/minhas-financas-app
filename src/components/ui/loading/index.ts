@@ -1,2 +1,2 @@
-export * from "./loading-full-screen";
-export * from "./loading";
+export * from './loading';
+export * from './loading-full-screen';

@@ -4,18 +4,13 @@ export type DatabaseConfigSelect = {
   [key: string]: SelectField;
 };
 
-export type DatabaseWhereFieldValue =
-  | string
-  | number
-  | boolean
-  | undefined
-  | null;
+export type DatabaseWhereFieldValue = string | number | boolean | undefined | null;
 export type DatabaseWhereField =
   | DatabaseWhereFieldValue
   | {
       value: DatabaseWhereFieldValue;
       as?: string;
-      op?: "equal" | "like";
+      op?: 'equal' | 'like';
     };
 
 export type DatabaseWhere = {
@@ -24,7 +19,7 @@ export type DatabaseWhere = {
 
 export type DatabaseInclude = {
   [key: string]: {
-    type?: "INNER" | "LEFT" | "RIGHT";
+    type?: 'INNER' | 'LEFT' | 'RIGHT';
     as?: string;
     singular: string;
     select?: DatabaseConfigSelect;
@@ -38,7 +33,7 @@ export type DatabaseConfig = {
   fn?: Record<string, string>;
   where?: DatabaseWhere;
   include?: DatabaseInclude;
-  orderBy?: Record<string, "asc" | "desc">[];
+  orderBy?: Record<string, 'asc' | 'desc'>[];
   groupBy?: string[];
 };
 
@@ -61,22 +56,19 @@ export type UpdateBulkData = Record<string, any> & {
 };
 
 export enum DATABASE_COLUMNS_TYPE_ENUM {
-  "INTEGER" = "INTEGER",
-  "TEXT" = "TEXT",
-  "BLOB" = "BLOB",
-  "REAL" = "REAL",
-  "NUMERIC" = "NUMERIC",
+  'INTEGER' = 'INTEGER',
+  'TEXT' = 'TEXT',
+  'BLOB' = 'BLOB',
+  'REAL' = 'REAL',
+  'NUMERIC' = 'NUMERIC',
 }
 
-export const DATABASE_COLUMNS_TYPE_ENUM_MAP: Record<
-  DATABASE_COLUMNS_TYPE_ENUM,
-  string
-> = {
-  INTEGER: "Inteiro",
-  TEXT: "Texto",
-  BLOB: "Dados",
-  REAL: "Real",
-  NUMERIC: "Numérico",
+export const DATABASE_COLUMNS_TYPE_ENUM_MAP: Record<DATABASE_COLUMNS_TYPE_ENUM, string> = {
+  INTEGER: 'Inteiro',
+  TEXT: 'Texto',
+  BLOB: 'Dados',
+  REAL: 'Real',
+  NUMERIC: 'Numérico',
 };
 
 type FK = {
@@ -94,7 +86,4 @@ type DatabaseCreateTableColumnsAttribute = {
   defaultValue?: any;
 };
 
-export type DatabaseCreateTableColumns = Record<
-  string,
-  DatabaseCreateTableColumnsAttribute
->;
+export type DatabaseCreateTableColumns = Record<string, DatabaseCreateTableColumnsAttribute>;

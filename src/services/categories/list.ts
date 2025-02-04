@@ -1,4 +1,4 @@
-import { db } from "@/db/connection";
+import { db } from '@/db/connection';
 
 export type ListCategoriesParams = {
   query?: string;
@@ -13,7 +13,7 @@ export type ListCategoriesResponseData = {
 
 export async function listCategories(params?: ListCategoriesParams) {
   const { page, size, query } = params || {};
-  return db.listPaginate<ListCategoriesResponseData>("categories", {
+  return db.listPaginate<ListCategoriesResponseData>('categories', {
     select: {
       id: true,
       name: true,
@@ -23,9 +23,9 @@ export async function listCategories(params?: ListCategoriesParams) {
     where: {
       name: {
         value: query,
-        op: "like",
+        op: 'like',
       },
     },
-    orderBy: [{ created_at: "desc" }],
+    orderBy: [{ created_at: 'desc' }],
   });
 }

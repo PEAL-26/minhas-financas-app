@@ -1,20 +1,20 @@
 export function getRecurrence(recurrence?: number | null) {
-  if (!recurrence) return "";
+  if (!recurrence) return '';
 
   if (recurrence === 1) {
-    return "Diária";
+    return 'Diária';
   }
 
   if (recurrence === 7) {
-    return "Semanal";
+    return 'Semanal';
   }
 
   if (recurrence === 30) {
-    return "Mensal";
+    return 'Mensal';
   }
 
   if (recurrence === 365) {
-    return "Anual";
+    return 'Anual';
   }
 
   return `A cada ${recurrence} dias`;

@@ -1,16 +1,13 @@
-import { View } from "react-native";
-import { Control, FieldValues, Path } from "react-hook-form";
+import { Control, FieldValues, Path } from 'react-hook-form';
+import { View } from 'react-native';
 
-import { Input, InputProps } from "../input";
-import { Text } from "../text";
-import { FormController } from "./form-controller";
-import { Label } from "../label";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import { Input, InputProps } from '../input';
+import { Label } from '../label';
+import { Text } from '../text';
+import { FormController } from './form-controller';
 
-type Props<
-  TFieldValues extends FieldValues = FieldValues,
-  TContext = any
-> = InputProps & {
+type Props<TFieldValues extends FieldValues = FieldValues, TContext = any> = InputProps & {
   label?: string;
   isLoading?: boolean;
   control: Control<TFieldValues, TContext>;
@@ -19,23 +16,14 @@ type Props<
   containerClassName?: string;
 };
 
-export function InputController<
-  TFieldValues extends FieldValues = FieldValues,
-  TContext = any
->(props: Props<TFieldValues, TContext>) {
-  const {
-    name,
-    control,
-    defaultValue,
-    label,
-    containerClassName,
-    isLoading,
-    ...rest
-  } = props;
+export function InputController<TFieldValues extends FieldValues = FieldValues, TContext = any>(
+  props: Props<TFieldValues, TContext>,
+) {
+  const { name, control, defaultValue, label, containerClassName, isLoading, ...rest } = props;
   return (
     <FormController defaultValue={defaultValue} name={name} control={control}>
       {({ field, fieldState }) => (
-        <View className={cn("flex flex-col", containerClassName)}>
+        <View className={cn('flex flex-col', containerClassName)}>
           {label && <Label className="mb-2">{label}</Label>}
           <Input
             {...rest}
@@ -44,9 +32,7 @@ export function InputController<
             onChangeText={(text) => field.onChange(text)}
           />
           {fieldState?.error?.message && (
-            <Text className="text-xs text-red-500 mt-1">
-              {fieldState?.error?.message}
-            </Text>
+            <Text className="mt-1 text-xs text-red-500">{fieldState?.error?.message}</Text>
           )}
         </View>
       )}

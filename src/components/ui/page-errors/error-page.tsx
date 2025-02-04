@@ -1,7 +1,7 @@
-import { router } from "expo-router";
-import { View } from "react-native";
-import { Text } from "../text";
-import { Button } from "../button";
+import { router } from 'expo-router';
+import { View } from 'react-native';
+import { Button } from '../button';
+import { Text } from '../text';
 
 interface Props {
   refetch?(): void;
@@ -13,16 +13,15 @@ export function ErrorPage(props: Props) {
   const { refetch, buttonBack = true, buttonRefresh = true } = props;
 
   return (
-    <View className="flex-1 gap-6 flex-col justify-center items-center">
-      <Text className="text-gray-2 font-medium text-xs text-center max-w-lg">
-        Oops! Algo deu errado, recarregue e se o erro persistir entre em
-        contanto com o suporte.
+    <View className="flex-1 flex-col items-center justify-center gap-6">
+      <Text className="text-gray-2 max-w-lg text-center text-xs font-medium">
+        Oops! Algo deu errado, recarregue e se o erro persistir entre em contanto com o suporte.
       </Text>
-      <View className="flex-row gap-2 items-center mt-2">
+      <View className="mt-2 flex-row items-center gap-2">
         {buttonBack && (
           <Button
             onPress={() => router.back()}
-            className="bg-white p-2 rounded w-24 justify-center items-center"
+            className="w-24 items-center justify-center rounded bg-white p-2"
             textClassName="text-center"
           >
             Voltar
@@ -31,7 +30,7 @@ export function ErrorPage(props: Props) {
         {buttonRefresh && (
           <Button
             onPress={() => refetch?.()}
-            className="bg-black p-2 rounded w-24 justify-center items-center"
+            className="w-24 items-center justify-center rounded bg-black p-2"
             textClassName="text-white text-center"
           >
             Recarregar

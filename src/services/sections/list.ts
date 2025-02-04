@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db } from '@/db';
 
 export type ListSectionsParams = {
   query?: string;
@@ -13,7 +13,7 @@ export type ListSectionsResponseData = {
 
 export async function listSectionService(params?: ListSectionsParams) {
   const { page, size, query } = params || {};
-  return db.listPaginate<ListSectionsResponseData>("sections", {
+  return db.listPaginate<ListSectionsResponseData>('sections', {
     select: {
       id: true,
       name: true,
@@ -23,6 +23,6 @@ export async function listSectionService(params?: ListSectionsParams) {
     where: {
       name: query,
     },
-    orderBy: [{ created_at: "desc" }],
+    orderBy: [{ created_at: 'desc' }],
   });
 }

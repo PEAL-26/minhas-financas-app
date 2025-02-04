@@ -1,6 +1,6 @@
-import { OperationTypes, Status } from "@/types";
-import { getRecurrence } from "../utils";
-import { db } from "@/db/connection";
+import { db } from '@/db/connection';
+import { OperationTypes, Status } from '@/types';
+import { getRecurrence } from '../utils';
 
 export type MutationIncome = {
   id?: number;
@@ -28,11 +28,11 @@ export async function mutationIncome(request: MutationIncome) {
   const recurrence = getRecurrence(request);
 
   if (id) {
-    const income = await db.getFirst("incomes", { where: { id } });
-    if (!income) throw new Error("Renda não encontrada.");
+    const income = await db.getFirst('incomes', { where: { id } });
+    if (!income) throw new Error('Renda não encontrada.');
 
     return db.update<MutationIncomeResponse>(
-      "incomes",
+      'incomes',
       {
         title,
         description,
@@ -44,10 +44,10 @@ export async function mutationIncome(request: MutationIncome) {
         status,
         updated_at: Date.now(),
       },
-      id
+      id,
     );
   } else {
-    return db.insert<MutationIncomeResponse>("incomes", {
+    return db.insert<MutationIncomeResponse>('incomes', {
       title,
       description,
       currency,

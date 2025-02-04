@@ -1,9 +1,9 @@
-import * as Haptics from "expo-haptics";
-import { TouchableOpacity } from "react-native";
+import * as Haptics from 'expo-haptics';
+import { TouchableOpacity } from 'react-native';
 
-import { cn } from "@/lib/utils";
-import { Text } from "react-native";
-import { colors } from "@/styles/colors";
+import { cn } from '@/lib/utils';
+import { colors } from '@/styles/colors';
+import { Text } from 'react-native';
 
 interface Props {
   icon?: any;
@@ -22,15 +22,15 @@ export function TabBarButton(props: Props) {
       onLongPress={onLongPress}
       activeOpacity={0.6}
       onPressIn={(ev) => {
-        if (process.env.EXPO_OS === "ios") {
+        if (process.env.EXPO_OS === 'ios') {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }
       }}
-      className="flex flex-col gap-2 items-center justify-center"
+      className="flex flex-col items-center justify-center gap-2"
     >
-      <Icon size={20} color={isFocused ? colors.primary.DEFAULT : "#374151"} />
-      <Text className={cn("text-[8px]", isFocused && "text-primary")}>
-        {typeof label === "string" ? label : ""}
+      <Icon size={20} color={isFocused ? colors.primary.DEFAULT : '#374151'} />
+      <Text className={cn('text-[8px]', isFocused && 'text-primary')}>
+        {typeof label === 'string' ? label : ''}
       </Text>
     </TouchableOpacity>
   );

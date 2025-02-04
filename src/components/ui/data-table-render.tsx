@@ -1,33 +1,33 @@
+import { useDebounce } from '@uidotdev/usehooks';
 import {
   ChevronLeftIcon,
-  ChevronsLeftIcon,
-  PlusIcon,
   ChevronRightIcon,
+  ChevronsLeftIcon,
   ChevronsRightIcon,
-} from "lucide-react-native";
-import { useMemo, useState } from "react";
-import { useWindowDimensions, View } from "react-native";
-import { useDebounce } from "@uidotdev/usehooks";
+  PlusIcon,
+} from 'lucide-react-native';
+import { useMemo, useState } from 'react';
+import { useWindowDimensions, View } from 'react-native';
 
-import { cn } from "@/lib/utils";
-import { dataTableListDataService } from "@/services/database";
-import { useQueryPagination } from "@/hooks/use-query-pagination";
+import { useQueryPagination } from '@/hooks/use-query-pagination';
+import { cn } from '@/lib/utils';
+import { dataTableListDataService } from '@/services/database';
 
-import { Text } from "./text";
-import { Loading } from "./loading";
-import { Input } from "./input";
-import { Button } from "./button";
-import { FlashList } from "./flash-list";
-import { SelectData } from "./select-data";
-import { ActivityIndicator } from "react-native";
-import { RegisterDataTableModal } from "../modals/register-data-table-modal";
+import { ActivityIndicator } from 'react-native';
+import { RegisterDataTableModal } from '../modals/register-data-table-modal';
+import { Button } from './button';
+import { FlashList } from './flash-list';
+import { Input } from './input';
+import { Loading } from './loading';
+import { SelectData } from './select-data';
+import { Text } from './text';
 
 const SIZES = [
-  { number: 10, title: "Mostrar 10" },
-  { number: 20, title: "Mostrar 20" },
-  { number: 30, title: "Mostrar 30" },
-  { number: 40, title: "Mostrar 40" },
-  { number: 50, title: "Mostrar 50" },
+  { number: 10, title: 'Mostrar 10' },
+  { number: 20, title: 'Mostrar 20' },
+  { number: 30, title: 'Mostrar 30' },
+  { number: 40, title: 'Mostrar 40' },
+  { number: 50, title: 'Mostrar 50' },
 ];
 
 interface DataTableProps {
@@ -45,7 +45,7 @@ export function DataTableRender(props: DataTableProps) {
     show: boolean;
   }>({ show: false });
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 300);
   const [size, setSize] = useState(10);
   const [page, setPage] = useState(1);
@@ -58,19 +58,19 @@ export function DataTableRender(props: DataTableProps) {
               table: table.name,
               columns: table.columns,
             },
-            { page, size, query: debouncedQuery }
+            { page, size, query: debouncedQuery },
           )
         : undefined,
-    queryKey: ["data-tables-list", page, size, table?.name, debouncedQuery],
+    queryKey: ['data-tables-list', page, size, table?.name, debouncedQuery],
   });
 
   const { columns, fieldId } = useMemo(() => {
-    let fieldId = "";
+    let fieldId = '';
     let columns: { title: string; name: string; pk: boolean }[] = [];
 
     if (table) {
-      table?.columns?.split(";").forEach((column, index) => {
-        const columnSplitted = column.split(" AS ").map((str) => str.trim());
+      table?.columns?.split(';').forEach((column, index) => {
+        const columnSplitted = column.split(' AS ').map((str) => str.trim());
         if (index === 0) fieldId = columnSplitted[1];
         columns.push({
           pk: index === 0,
@@ -84,7 +84,7 @@ export function DataTableRender(props: DataTableProps) {
 
   if (!table) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View className="flex-1 items-center justify-center">
         <Text className="text-center">Nenhuma tabela de dados selecionada</Text>
       </View>
     );
@@ -96,15 +96,11 @@ export function DataTableRender(props: DataTableProps) {
 
   return (
     <>
-      <View className="flex-row gap-2 items-center mb-4">
-        <Input
-          className="w-full flex-1"
-          placeholder="Pesquisar..."
-          onChangeText={setQuery}
-        />
+      <View className="mb-4 flex-row items-center gap-2">
+        <Input className="w-full flex-1" placeholder="Pesquisar..." onChangeText={setQuery} />
         <Button
           icon={PlusIcon}
-          className="bg-white rounded-full w-10 h-10 justify-center items-center"
+          className="h-10 w-10 items-center justify-center rounded-full bg-white"
           onPress={() =>
             setRegisterDataTableModal({
               show: true,
@@ -120,27 +116,25 @@ export function DataTableRender(props: DataTableProps) {
       {response.isError && (
         <View
           style={{ height: window.height - 300 }}
-          className="bg-white rounded justify-center items-center"
+          className="items-center justify-center rounded bg-white"
         >
-          <Text className="text-center text-xs mb-4">
-            Falha ao carregar a tabela de dados!
-          </Text>
+          <Text className="mb-4 text-center text-xs">Falha ao carregar a tabela de dados!</Text>
           <Button onPress={response.refetch}>Recarregar</Button>
         </View>
       )}
 
       {!response.isLoading && !response.isError && (
         <>
-          <View className="border-b-gray-200 border-b p-2 bg-white rounded-t flex flex-row items-center">
+          <View className="flex flex-row items-center rounded-t border-b border-b-gray-200 bg-white p-2">
             {columns.map((column, key) => (
               <Text
                 key={key}
                 className={cn(
-                  "font-bold uppercase text-sm px-2",
-                  column.pk ? "w-10 text-center" : "flex-1 "
+                  'px-2 text-sm font-bold uppercase',
+                  column.pk ? 'w-10 text-center' : 'flex-1',
                 )}
               >
-                {column?.title || ""}
+                {column?.title || ''}
               </Text>
             ))}
           </View>
@@ -149,14 +143,14 @@ export function DataTableRender(props: DataTableProps) {
             data={response.isLoading ? [] : response.data}
             keyExtractor={(item) => String(item[fieldId])}
             renderItem={({ item, index }) => (
-              <View key={index} className="p-2 flex flex-row items-center">
+              <View key={index} className="flex flex-row items-center p-2">
                 {columns.map((column, key) => {
                   return (
                     <Text
                       key={key}
                       className={cn(
-                        "text-xs px-2",
-                        column.pk ? "text-center w-10" : "flex-1 line-clamp-1"
+                        'px-2 text-xs',
+                        column.pk ? 'w-10 text-center' : 'line-clamp-1 flex-1',
                       )}
                     >
                       {item[column.title]}
@@ -168,15 +162,13 @@ export function DataTableRender(props: DataTableProps) {
             ListFooterComponent={() => (
               <>
                 {response.isFetching && (
-                  <View className="flex-row justify-center items-center h-20">
-                    <ActivityIndicator color={"#000"} size={"small"} />
+                  <View className="h-20 flex-row items-center justify-center">
+                    <ActivityIndicator color={'#000'} size={'small'} />
                   </View>
                 )}
-                <View className="rounded-b  flex flex-row items-center justify-between border-t-gray-200 border-t">
+                <View className="flex flex-row items-center justify-between rounded-b border-t border-t-gray-200">
                   <View className="py-2 pl-3">
-                    <Text className="text-xs">{`${
-                      response.totalItems || 0
-                    } item(s)`}</Text>
+                    <Text className="text-xs">{`${response.totalItems || 0} item(s)`}</Text>
                   </View>
                   <View className="py-2 pl-3">
                     <SelectData
@@ -184,7 +176,7 @@ export function DataTableRender(props: DataTableProps) {
                       data={SIZES}
                       defaultValue={SIZES.find((s) => s.number === size)}
                       placeholder="Mostrar 10"
-                      className="border-0 p-0 w-fit"
+                      className="w-fit border-0 p-0"
                       containerClassName="p-0 flex-1 w-[1%] border-0"
                       onSelect={(item) => {
                         setSize(item.number);
@@ -214,9 +206,7 @@ export function DataTableRender(props: DataTableProps) {
                     <Button
                       icon={ChevronsRightIcon}
                       disabled={!response.next}
-                      onPress={() =>
-                        response.totalPages && setPage(response.totalPages)
-                      }
+                      onPress={() => response.totalPages && setPage(response.totalPages)}
                     />
                   </View>
                 </View>
@@ -227,20 +217,18 @@ export function DataTableRender(props: DataTableProps) {
                 <View
                   style={{
                     height: 200,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: "#fff",
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#fff',
                   }}
                 >
-                  <Text className="text-sm text-center max-w-[250px]">
-                    {query
-                      ? "Nenhum dado encontrado"
-                      : "Sem nenhum dado cadastrado"}
+                  <Text className="max-w-[250px] text-center text-sm">
+                    {query ? 'Nenhum dado encontrado' : 'Sem nenhum dado cadastrado'}
                   </Text>
                 </View>
               ) : null
             }
-            contentContainerStyle={{ backgroundColor: "#fff" }}
+            contentContainerStyle={{ backgroundColor: '#fff' }}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
             estimatedItemSize={32}

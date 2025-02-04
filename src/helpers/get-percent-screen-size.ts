@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import { Dimensions } from 'react-native';
 
 interface ScreenSize {
   width: number;
@@ -7,7 +7,7 @@ interface ScreenSize {
 
 export const getPercentScreenSize = (percentage: number): ScreenSize => {
   const fraction = percentage / 100;
-  const { width, height } = Dimensions.get("window");
+  const { width, height } = Dimensions.get('window');
   return {
     width: width * fraction,
     height: height * fraction,

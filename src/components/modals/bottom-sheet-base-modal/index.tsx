@@ -1,29 +1,20 @@
-import React, { useCallback } from "react";
-import { StyleSheet } from "react-native";
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetScrollView,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
-import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
-import { Text } from "@/components/ui/text";
-import { getPercentScreenSize } from "@/helpers/get-percent-screen-size";
+import { Text } from '@/components/ui/text';
+import { BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
+import React, { useCallback } from 'react';
 
-import { useBottomSheetBaseModal } from "./use-bottom-sheet-base-modal";
-import { BottomSheetBaseModalProps } from "./type";
+import { BottomSheetBaseModalProps } from './type';
+import { useBottomSheetBaseModal } from './use-bottom-sheet-base-modal';
 
 export function BottomSheetBaseModal(props: BottomSheetBaseModalProps) {
   const { title, children } = props;
-  const { snapPoints, bottomSheetModalRef, handleSheetChanges } =
-    useBottomSheetBaseModal(props);
-
+  const { snapPoints, bottomSheetModalRef, handleSheetChanges } = useBottomSheetBaseModal(props);
 
   const renderBackdrop = useCallback(
-    (
-      props: React.JSX.IntrinsicAttributes & BottomSheetDefaultBackdropProps
-    ) => <BottomSheetBackdrop {...props} />,
-    []
+    (props: React.JSX.IntrinsicAttributes & BottomSheetDefaultBackdropProps) => (
+      <BottomSheetBackdrop {...props} />
+    ),
+    [],
   );
 
   return (
@@ -35,12 +26,10 @@ export function BottomSheetBaseModal(props: BottomSheetBaseModalProps) {
       onChange={handleSheetChanges}
       backdropComponent={renderBackdrop}
     >
-      <Text className="flex items-center justify-center text-center py-2 font-bold text-lg">
+      <Text className="flex items-center justify-center py-2 text-center text-lg font-bold">
         {title}
       </Text>
-      <BottomSheetScrollView style={{ width: "100%" }}>
-        {children}
-      </BottomSheetScrollView>
+      <BottomSheetScrollView style={{ width: '100%' }}>{children}</BottomSheetScrollView>
     </BottomSheetModal>
   );
 }

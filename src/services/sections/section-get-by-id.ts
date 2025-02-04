@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db } from '@/db';
 
 export type SectionResponseData = {
   id: number;
@@ -9,16 +9,16 @@ export type SectionResponseData = {
 };
 
 export async function sectionGetByIdService(id: number) {
-  return db.getFirst<SectionResponseData>("sections", {
+  return db.getFirst<SectionResponseData>('sections', {
     select: {
       id: true,
       name: true,
       description: true,
       created_at: {
-        as: "createdAd",
+        as: 'createdAd',
       },
       updated_at: {
-        as: "updatedAt",
+        as: 'updatedAt',
       },
     },
     where: {

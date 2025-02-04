@@ -1,6 +1,6 @@
-import { ExpoSQLiteDatabase } from "drizzle-orm/expo-sqlite";
-import { SQLiteDatabase } from "expo-sqlite";
-import { useCallback, useEffect, useState } from "react";
+import { ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite';
+import { SQLiteDatabase } from 'expo-sqlite';
+import { useState } from 'react';
 
 interface Props {
   connection: ExpoSQLiteDatabase<Record<string, never>> & {

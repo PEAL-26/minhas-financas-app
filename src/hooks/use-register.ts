@@ -1,13 +1,8 @@
-import {
-  FieldErrors,
-  FieldValues,
-  useForm,
-  DefaultValues,
-} from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { messageError, messageSuccess } from "@/helpers/alert-message";
-import { useQueryClient } from "@tanstack/react-query";
+import { messageError, messageSuccess } from '@/helpers/alert-message';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { DefaultValues, FieldErrors, FieldValues, useForm } from 'react-hook-form';
 
 interface Props<TDataRequest, TDataResponse> {
   schema: any;
@@ -18,7 +13,7 @@ interface Props<TDataRequest, TDataResponse> {
 }
 
 export function useRegister<T extends FieldValues = any, TDataResponse = any>(
-  props: Props<T, TDataResponse>
+  props: Props<T, TDataResponse>,
 ) {
   const { schema, defaultValues, mutationFn, queryKey, onSuccess } = props;
 
@@ -26,7 +21,7 @@ export function useRegister<T extends FieldValues = any, TDataResponse = any>(
 
   const form = useForm<T>({
     resolver: zodResolver(schema),
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues,
   });
 
@@ -40,11 +35,11 @@ export function useRegister<T extends FieldValues = any, TDataResponse = any>(
       queryClient.invalidateQueries({
         queryKey,
       });
-      messageSuccess("Dados guardados com sucesso!");
+      messageSuccess('Dados guardados com sucesso!');
       onSuccess?.();
     } catch (error: any) {
       console.error(error);
-      messageError(error?.message || "Falha ao salvar o registo.");
+      messageError(error?.message || 'Falha ao salvar o registo.');
     } finally {
       setIsLoading(false);
     }
@@ -52,7 +47,7 @@ export function useRegister<T extends FieldValues = any, TDataResponse = any>(
 
   const onValid = (err: FieldErrors<T>) => {
     console.warn(JSON.stringify(err, null, 3));
-    messageError("Preencha os campos corretamente!");
+    messageError('Preencha os campos corretamente!');
   };
 
   return {

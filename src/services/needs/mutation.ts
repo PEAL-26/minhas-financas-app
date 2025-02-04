@@ -1,6 +1,6 @@
-import { OperationTypes, Status } from "@/types";
-import { getIdValueOrCreate, getRecurrence } from "../utils";
-import { db } from "@/db/connection";
+import { db } from '@/db/connection';
+import { OperationTypes, Status } from '@/types';
+import { getIdValueOrCreate, getRecurrence } from '../utils';
 
 export type MutationNeed = {
   id?: number;
@@ -44,16 +44,16 @@ export async function mutationNeed(request: MutationNeed) {
     needPrices = [],
   } = request;
 
-  const category_id = await getIdValueOrCreate("categories", category?.name);
+  const category_id = await getIdValueOrCreate('categories', category?.name);
   const recurrence = getRecurrence(request);
 
   let need;
   if (id) {
-    need = await db.getFirst("needs", { where: { id } });
-    if (!need) throw new Error("Necessidade não encontrada.");
+    need = await db.getFirst('needs', { where: { id } });
+    if (!need) throw new Error('Necessidade não encontrada.');
 
     need = await db.update<MutationNeedResponse>(
-      "needs",
+      'needs',
       {
         category_id,
         title,
@@ -65,10 +65,10 @@ export async function mutationNeed(request: MutationNeed) {
         status,
         updated_at: Date.now(),
       },
-      id
+      id,
     );
   } else {
-    need = await db.insert<MutationNeedResponse>("needs", {
+    need = await db.insert<MutationNeedResponse>('needs', {
       category_id,
       title,
       description,
@@ -84,25 +84,25 @@ export async function mutationNeed(request: MutationNeed) {
 
   for (const price of needPrices) {
     const need_id = need.id;
-    const local_id = await getIdValueOrCreate("locals", price.local?.name);
+    const local_id = await getIdValueOrCreate('locals', price.local?.name);
 
-    const needPrice = await db.getFirst<{ id: number }>("needs_prices", {
+    const needPrice = await db.getFirst<{ id: number }>('needs_prices', {
       where: { need_id, local_id },
     });
 
     if (needPrice) {
       db.update(
-        "needs_prices",
+        'needs_prices',
         {
           need_id,
           local_id,
           amount: price.amount,
           updated_at: Date.now(),
         },
-        needPrice.id
+        needPrice.id,
       );
     } else {
-      db.insert("needs_prices", {
+      db.insert('needs_prices', {
         need_id,
         local_id,
         amount: price.amount,

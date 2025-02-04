@@ -4,28 +4,36 @@ import {
   PlusIcon,
   TrendingDownIcon,
   TrendingUpIcon,
-} from "lucide-react-native";
-import { TouchableOpacity, View } from "react-native";
-import Animated, { useSharedValue } from "react-native-reanimated";
-import { useState } from "react";
+} from 'lucide-react-native';
+import { useRef, useState } from 'react';
+import { TouchableOpacity, View } from 'react-native';
+import Animated, { useSharedValue } from 'react-native-reanimated';
 
 import {
   ExpenseRegisterModal,
   IncomeRegisterModal,
   NeedRegisterModal,
   TransactionRegisterModal,
-} from "@/components/modals";
+} from '@/components/modals';
 
-import { styles } from "./styles";
-import { FloatingActionButton } from "../floating-action-button";
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { FloatingActionButton } from '../floating-action-button';
+import { styles } from './styles';
 
 const AnimatedPressable = Animated.createAnimatedComponent(TouchableOpacity);
 
-type ModalTypes = "transaction" | "income" | "expense" | "need";
+type ModalTypes = 'transaction' | 'income' | 'expense' | 'need';
 
 export function AddButton() {
   const [showModal, setShowModal] = useState<Record<string, boolean>>();
   const isExpanded = useSharedValue(false);
+
+  const sheetModal = {
+    transaction: useRef<BottomSheetModal>(null),
+    income: useRef<BottomSheetModal>(null),
+    expense: useRef<BottomSheetModal>(null),
+    need: useRef<BottomSheetModal>(null),
+  };
 
   const handlePress = () => {
     isExpanded.value = !isExpanded.value;
@@ -33,7 +41,8 @@ export function AddButton() {
 
   const handleOpenModal = (modal: ModalTypes) => {
     isExpanded.value = false;
-    setShowModal({ [modal]: true });
+    sheetModal[modal].current?.present();
+    // setShowModal({ [modal]: true });
   };
 
   return (
@@ -44,35 +53,35 @@ export function AddButton() {
           style={[styles.shadow, styles.button]}
           onPress={handlePress}
         >
-          <PlusIcon size={20} color={"#fff"} />
+          <PlusIcon size={20} color={'#fff'} />
         </AnimatedPressable>
         <FloatingActionButton
           isExpanded={isExpanded}
           index={1}
-          buttonLetter={"Transação"}
+          buttonLetter={'Transação'}
           icon={ArrowDownUpIcon}
-          onPress={() => handleOpenModal("transaction")}
+          onPress={() => handleOpenModal('transaction')}
         />
         <FloatingActionButton
           isExpanded={isExpanded}
           index={2}
-          buttonLetter={"Renda"}
+          buttonLetter={'Renda'}
           icon={TrendingUpIcon}
-          onPress={() => handleOpenModal("income")}
+          onPress={() => handleOpenModal('income')}
         />
         <FloatingActionButton
           isExpanded={isExpanded}
           index={3}
-          buttonLetter={"Despesa"}
+          buttonLetter={'Despesa'}
           icon={TrendingDownIcon}
-          onPress={() => handleOpenModal("expense")}
+          onPress={() => handleOpenModal('expense')}
         />
         <FloatingActionButton
           isExpanded={isExpanded}
           index={4}
-          buttonLetter={"Necessidade"}
+          buttonLetter={'Necessidade'}
           icon={ListIcon}
-          onPress={() => handleOpenModal("need")}
+          onPress={() => handleOpenModal('need')}
         />
       </View>
 
@@ -89,27 +98,27 @@ export function AddButton() {
         }}
       /> */}
 
-      {showModal?.["need"] && (
+      {showModal?.['need'] && (
         <NeedRegisterModal
-          show={showModal?.["need"]}
+          show={showModal?.['need']}
           onClose={() => setShowModal({ need: false })}
         />
       )}
-      {showModal?.["expense"] && (
+      {showModal?.['expense'] && (
         <ExpenseRegisterModal
-          show={showModal?.["expense"]}
+          show={showModal?.['expense']}
           onClose={() => setShowModal({ expense: false })}
         />
       )}
-      {showModal?.["income"] && (
+      {showModal?.['income'] && (
         <IncomeRegisterModal
-          show={showModal?.["income"]}
+          show={showModal?.['income']}
           onClose={() => setShowModal({ income: false })}
         />
       )}
-      {showModal?.["transaction"] && (
+      {showModal?.['transaction'] && (
         <TransactionRegisterModal
-          show={showModal?.["transaction"]}
+          show={showModal?.['transaction']}
           onClose={() => setShowModal({ transaction: false })}
         />
       )}

@@ -1,16 +1,15 @@
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from 'expo-file-system';
 
-export const cacheDirectory = (folder = "") => {
+export const cacheDirectory = (folder = '') => {
   const dit = FileSystem.cacheDirectory;
-  return dit ? `${dit}${folder ? `${folder}/` : ""}` : "";
+  return dit ? `${dit}${folder ? `${folder}/` : ''}` : '';
 };
 
-export const fileUri = (file: string, folder = "") =>
-  `${cacheDirectory(folder)}${file}`;
+export const fileUri = (file: string, folder = '') => `${cacheDirectory(folder)}${file}`;
 
-export const ensureDirExists = async (folder = "") => {
+export const ensureDirExists = async (folder = '') => {
   const dir = cacheDirectory(folder);
-  let uri = "";
+  let uri = '';
   const dirInfo = await FileSystem.getInfoAsync(dir);
   uri = dirInfo.uri;
 
@@ -29,7 +28,7 @@ export const ensureDirExists = async (folder = "") => {
 export async function writeFile(
   filePath: string,
   content: string,
-  encoding?: FileSystem.EncodingType
+  encoding?: FileSystem.EncodingType,
 ) {
   // FileSystem.
   await FileSystem.writeAsStringAsync(filePath, content, {
@@ -49,9 +48,9 @@ export async function moveTo(filePath: string, directoryTo: string) {
     directoryUri = dirInfo.uri;
   }
 
-  const fileName = filePath.split("/").pop();
+  const fileName = filePath.split('/').pop();
   const filePathTo = `${directoryUri}/${fileName}`;
-  if (!fileName) throw new Error("FileName invalid.");
+  if (!fileName) throw new Error('FileName invalid.');
 
   await FileSystem.moveAsync({
     from: filePath,

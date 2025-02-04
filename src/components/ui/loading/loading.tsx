@@ -1,18 +1,13 @@
-import { View } from "react-native";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, View } from 'react-native';
 
 interface Props {
   backgroundColor?: string;
   color?: string;
-  size?: number | "small" | "large";
+  size?: number | 'small' | 'large';
 }
 
 export function Loading(props: Props) {
-  const {
-    backgroundColor = "transparent",
-    color = "#000",
-    size = "small",
-  } = props;
+  const { backgroundColor = 'transparent', color = '#000', size = 'small' } = props;
 
   return (
     <View
@@ -20,8 +15,8 @@ export function Loading(props: Props) {
         {
           backgroundColor,
           flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: 'center',
+          alignItems: 'center',
         },
       ]}
     >

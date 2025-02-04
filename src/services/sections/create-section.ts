@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db } from '@/db';
 
 export type CreateSectionRequest = {
   name: string;
@@ -12,7 +12,7 @@ export type CreateSectionResponseData = {
 };
 
 export async function createSectionService(data: CreateSectionRequest) {
-  return db.insert<CreateSectionResponseData>("sections", {
+  return db.insert<CreateSectionResponseData>('sections', {
     name: data.name,
     description: data?.description ?? null,
     created_at: Date.now(),

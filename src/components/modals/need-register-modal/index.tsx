@@ -1,70 +1,53 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { View } from "react-native";
-import { PlusIcon, TrashIcon } from "lucide-react-native";
-import { FormProvider, useFieldArray } from "react-hook-form";
+import React, { ElementRef, forwardRef } from 'react';
 
-import { Text } from "@/components/ui/text";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { useRegister } from "@/hooks/use-register";
+import { useRegister } from '@/hooks/use-register';
 
-import {
-  InputAutocompleteController,
-  InputController,
-  SwitchToggleTextController,
-  TextareaController,
-} from "@/components/ui/form-controller";
-import { Loading } from "@/components/ui/loading";
-import { ErrorComponent } from "@/components/ui/error";
-import { getNeedById, mutationNeed } from "@/services/needs";
-import { InputAutocomplete } from "@/components/ui/input-autocomplete";
+import { mutationNeed } from '@/services/needs';
 
-import { NeedRegisterModalProps } from "./types";
-import { needSchema, NeedSchemaType } from "./schema";
-import { BottomSheetBaseModal } from "../bottom-sheet-base-modal";
-import { listCategories } from "@/services/categories";
-import { useQueryFilter } from "@/hooks/use-query-filter";
-import { PriorityComponent } from "@/components/shared/priority";
-import { TypeRecurrenceComponent } from "@/components/shared/type-recurrence";
+import { BottomSheetBaseModal } from '../bottom-sheet-base-modal';
+import { needSchema, NeedSchemaType } from './schema';
+import { NeedRegisterModalProps } from './types';
 
-export function NeedRegisterModal(props: NeedRegisterModalProps) {
+export const NeedRegisterModal = forwardRef<
+  ElementRef<typeof BottomSheetBaseModal>,
+  NeedRegisterModalProps
+>((props, ref) => {
   const { needId, show, onClose } = props;
 
   const { form, handleSubmit, isLoading } = useRegister<NeedSchemaType>({
     schema: needSchema,
     defaultValues: { id: needId, needPrices: [], priority: 1 },
     mutationFn: mutationNeed,
-    queryKey: ["needs"],
+    queryKey: ['needs'],
     onSuccess: () => {
       onClose?.();
     },
   });
 
-  const needPrices = useFieldArray({
-    control: form.control,
-    name: "needPrices",
-  });
+  // const needPrices = useFieldArray({
+  //   control: form.control,
+  //   name: "needPrices",
+  // });
 
-  const need = useQuery({
-    queryFn: () => (needId ? getNeedById(needId) : null),
-    queryKey: ["need", needId],
-  });
+  // const need = useQuery({
+  //   queryFn: () => (needId ? getNeedById(needId) : null),
+  //   queryKey: ["need", needId],
+  // });
 
-  const category = useQueryFilter({
-    fn: listCategories,
-    queryKey: ["categories"],
-  });
+  // const category = useQueryFilter({
+  //   fn: listCategories,
+  //   queryKey: ["categories"],
+  // });
 
   return (
     <BottomSheetBaseModal
-      title={needId ? "Editar Necessidade" : "Nova Necessidade"}
+      title={needId ? 'Editar Necessidade' : 'Nova Necessidade'}
       show={show}
       onClose={onClose}
       isLoading={isLoading}
     >
-      {need.isLoading && !need.isError && <Loading />}
+      <></>
+      {/* {need.isLoading && !need.isError && <Loading />}
       {!need.isLoading && need.isError && (
         <ErrorComponent refetch={need.refetch} />
       )}
@@ -187,7 +170,9 @@ export function NeedRegisterModal(props: NeedRegisterModalProps) {
             </Button>
           </View>
         </FormProvider>
-      )}
+      )} */}
     </BottomSheetBaseModal>
   );
-}
+});
+
+NeedRegisterModal.displayName = 'NeedRegisterModal';

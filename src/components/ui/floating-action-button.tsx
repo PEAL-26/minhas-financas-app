@@ -1,14 +1,15 @@
-import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import React from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, {
-  withDelay,
+  SharedValue,
   useAnimatedStyle,
+  withDelay,
   withSpring,
   withTiming,
-  SharedValue,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
-import { colors } from "@/styles/colors";
+import { colors } from '@/styles/colors';
+import { shadowStyles } from '@/styles/styles';
 
 const AnimatedPressable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -30,14 +31,15 @@ interface Props {
 
 export const FloatingActionButton = (props: Props) => {
   const { isExpanded, index, buttonLetter, icon: Icon, onPress } = props;
+
   const animatedStyles = useAnimatedStyle(() => {
     // highlight-next-line
-    const moveValue = isExpanded.value ? OFFSET * index : 0;
+    const moveValue = isExpanded.get() ? OFFSET * index : 0;
     const translateValue = withSpring(-moveValue, SPRING_CONFIG);
     //highlight-next-line
     const delay = index * 100;
 
-    const scaleValue = isExpanded.value ? 1 : 0;
+    const scaleValue = isExpanded.get() ? 1 : 0;
 
     return {
       transform: [
@@ -57,48 +59,40 @@ export const FloatingActionButton = (props: Props) => {
     >
       {Icon && (
         <View
-          style={styles.shadow}
-          className="bg-white rounded-full w-7 h-7 flex flex-row justify-center items-center shadow"
+          style={shadowStyles.shadow}
+          className="flex h-7 w-7 flex-row items-center justify-center rounded-full bg-white"
         >
           <Icon size={16} color={colors.primary.DEFAULT} />
         </View>
       )}
-      <Animated.Text style={[styles.shadow, styles.content]} className="shadow">
-        {buttonLetter}
-      </Animated.Text>
+      <Animated.Text style={[shadowStyles.shadow, styles.content]}>{buttonLetter}</Animated.Text>
     </AnimatedPressable>
   );
 };
 
 const styles = StyleSheet.create({
   mainContainer: {
-    position: "relative",
+    position: 'relative',
     height: 260,
-    width: "100%",
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center",
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   button: {
     height: 28,
-    position: "absolute",
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
     zIndex: -2,
     gap: 8,
   },
   buttonContainer: {
-    position: "absolute",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  shadow: {
-    shadowColor: "#171717",
-    shadowOffset: { width: -0.5, height: 3.5 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    position: 'absolute',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   content: {
     color: colors.primary.DEFAULT,
@@ -106,7 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 16,
   },
 });

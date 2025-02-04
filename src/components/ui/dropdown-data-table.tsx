@@ -1,13 +1,13 @@
-import { useMemo, useRef, useState } from "react";
-import { ChevronDownIcon } from "lucide-react-native";
-import { ActivityIndicator, Pressable, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ChevronDownIcon } from 'lucide-react-native';
+import { useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, Pressable, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
-import { Text } from "./text";
-import { Button } from "./button";
-import { DropdownMenuTrigger } from "./dropdown-menu";
+import { Button } from './button';
+import { DropdownMenuTrigger } from './dropdown-menu';
+import { Text } from './text';
 
 interface Props {
   defaultItem?: any;
@@ -28,7 +28,7 @@ export const DropdownDataTable = (props: Props) => {
     isLoading,
     openOutside = false,
     onOpenOutside,
-    placeholder = "Selecione um item",
+    placeholder = 'Selecione um item',
     className,
     containerClassName,
   } = props;
@@ -47,37 +47,32 @@ export const DropdownDataTable = (props: Props) => {
   const title = currentItem?.title
     ? currentItem?.title
     : defaultItem
-    ? defaultItem.title
-    : placeholder;
+      ? defaultItem.title
+      : placeholder;
 
   const buttonRef = useRef();
 
   console.log(buttonRef.current);
 
   return (
-    <View className="relative justify-center items-center p-6 gap-12">
+    <View className="relative items-center justify-center gap-12 p-6">
       <Button
         ref={buttonRef.current}
         className={cn(
-          "h-12 px-3 text-xs w-full rounded-md border border-input bg-background flex-row items-center justify-between",
-          className
+          'h-12 w-full flex-row items-center justify-between rounded-md border border-input bg-background px-3 text-xs',
+          className,
         )}
-        containerClassName={cn("w-full", containerClassName)}
+        containerClassName={cn('w-full', containerClassName)}
         // onPress={handleOpen}
       >
         <>
           <Text
-            className={cn(
-              "text-xs",
-              !currentItem?.title && !defaultItem?.title && "text-gray-500"
-            )}
+            className={cn('text-xs', !currentItem?.title && !defaultItem?.title && 'text-gray-500')}
           >
             {title}
           </Text>
-          <View className="flex-row gap-2 items-center">
-            {isLoading && (
-              <ActivityIndicator color="#9ca3af" animating size={14} />
-            )}
+          <View className="flex-row items-center gap-2">
+            {isLoading && <ActivityIndicator color="#9ca3af" animating size={14} />}
             <ChevronDownIcon size={14} color="#9ca3af" />
           </View>
         </>

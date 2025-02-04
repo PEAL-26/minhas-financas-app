@@ -1,5 +1,5 @@
-import { QueryFunction } from "@tanstack/react-query";
-import { InputProps } from "../input";
+import { QueryFunction } from '@tanstack/react-query';
+import { InputProps } from '../input';
 
 /**
  * Propriedades do Componente InputAutocomplete
@@ -14,8 +14,7 @@ import { InputProps } from "../input";
  *
  */
 
-export interface InputAutocompleteProps<TData = any>
-  extends Omit<InputProps, "onSelectionChange"> {
+export interface InputAutocompleteProps<TData = any> extends Omit<InputProps, 'onSelectionChange'> {
   valueProperty?: keyof TData;
   labelProperty?: keyof TData;
   data?: TData[];

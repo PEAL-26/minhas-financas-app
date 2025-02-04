@@ -1,4 +1,4 @@
-import { db } from "@/db/connection";
+import { db } from '@/db/connection';
 
 export async function getIdValue(tableName: string, id?: number) {
   let value = null;
@@ -39,7 +39,7 @@ export async function getIdValueOrCreate(tableName: string, name?: string) {
 }
 
 type Recurrence = {
-  type: "unique" | "recurrent";
+  type: 'unique' | 'recurrent';
   recurrence?: number | null;
   customRecurrence?: number | null;
 };
@@ -47,14 +47,14 @@ type Recurrence = {
 export function getRecurrence(input: Recurrence) {
   const { type, recurrence, customRecurrence } = input;
 
-  if (type === "unique") {
+  if (type === 'unique') {
     return null;
   }
 
   if (recurrence === null) {
     if (!customRecurrence) {
       throw new Error(
-        "Quando a recorrência for personalizada, deve definir a recorrência em dias."
+        'Quando a recorrência for personalizada, deve definir a recorrência em dias.',
       );
     }
 
@@ -62,7 +62,7 @@ export function getRecurrence(input: Recurrence) {
   }
 
   if (!recurrence) {
-    throw new Error("Selecione a recorrência");
+    throw new Error('Selecione a recorrência');
   }
 
   return recurrence;

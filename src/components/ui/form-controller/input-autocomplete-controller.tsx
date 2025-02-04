@@ -1,19 +1,16 @@
-import { View } from "react-native";
-import { Control, FieldValues, Path } from "react-hook-form";
+import { Control, FieldValues, Path } from 'react-hook-form';
+import { View } from 'react-native';
 
-import { Text } from "../text";
-import { FormController } from "./form-controller";
-import { Label } from "../label";
-import { cn } from "@/lib/utils";
-import {
-  InputAutocomplete,
-  InputAutocompleteProps,
-} from "../input-autocomplete";
+import { cn } from '@/lib/utils';
+import { InputAutocomplete, InputAutocompleteProps } from '../input-autocomplete';
+import { Label } from '../label';
+import { Text } from '../text';
+import { FormController } from './form-controller';
 
 type Props<
   TFieldValues extends FieldValues = FieldValues,
   TContext = any,
-  TData = any
+  TData = any,
 > = InputAutocompleteProps<TData> & {
   label?: string;
   isLoading?: boolean;
@@ -26,7 +23,7 @@ type Props<
 export function InputAutocompleteController<
   TFieldValues extends FieldValues = FieldValues,
   TContext = any,
-  TData = any
+  TData = any,
 >(props: Props<TFieldValues, TContext, TData>) {
   const {
     name,
@@ -45,7 +42,7 @@ export function InputAutocompleteController<
   return (
     <FormController defaultValue={defaultValue} name={name} control={control}>
       {({ field, fieldState }) => (
-        <View className={cn("flex flex-col", containerClassName)}>
+        <View className={cn('flex flex-col', containerClassName)}>
           {label && <Label className="mb-2">{label}</Label>}
           <InputAutocomplete
             {...rest}
@@ -56,9 +53,7 @@ export function InputAutocompleteController<
             }}
           />
           {fieldState?.error?.message && (
-            <Text className="text-xs text-red-500 mt-1">
-              {fieldState?.error?.message}
-            </Text>
+            <Text className="mt-1 text-xs text-red-500">{fieldState?.error?.message}</Text>
           )}
         </View>
       )}

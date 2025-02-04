@@ -1,11 +1,11 @@
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { View } from "react-native";
-import debounce from "lodash.debounce";
-import { Text } from "@/components/ui/text";
-import { RenderComponent } from "@/components/ui/render-component";
-import { FIELD_TYPE_ENUM } from "@/db";
-import { generateData } from "@/services/data";
-import { Label } from "@/components/ui/label";
+import { Label } from '@/components/ui/label';
+import { RenderComponent } from '@/components/ui/render-component';
+import { Text } from '@/components/ui/text';
+import { FIELD_TYPE_ENUM } from '@/db';
+import { generateData } from '@/services/data';
+import debounce from 'lodash.debounce';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { View } from 'react-native';
 
 type Default = {
   id: number;
@@ -33,7 +33,7 @@ interface FormRenderProps {
   collections?: any;
 }
 
-var lastSection = "";
+var lastSection = '';
 var showSection = false;
 
 export const FormRender = memo((props: FormRenderProps) => {
@@ -43,7 +43,7 @@ export const FormRender = memo((props: FormRenderProps) => {
     showSection = false;
   } else {
     if (lastSection !== fields?.section?.name) {
-      lastSection = fields?.section?.name ?? "";
+      lastSection = fields?.section?.name ?? '';
       showSection = true;
     } else {
       showSection = false;
@@ -55,7 +55,7 @@ export const FormRender = memo((props: FormRenderProps) => {
     debounce((identifier: string, data: any) => {
       onUpdate?.(identifier, data);
     }, 300),
-    [onUpdate]
+    [onUpdate],
   );
 
   const [data, setData] = useState<{ value: string; label: string }[]>([]);
@@ -63,10 +63,7 @@ export const FormRender = memo((props: FormRenderProps) => {
 
   useEffect(() => {
     (async () => {
-      if (
-        fields?.type === FIELD_TYPE_ENUM.checkbox ||
-        fields?.type === FIELD_TYPE_ENUM.radio
-      ) {
+      if (fields?.type === FIELD_TYPE_ENUM.checkbox || fields?.type === FIELD_TYPE_ENUM.radio) {
         setIsLoadingData(true);
 
         const response = await generateData(fields.data, {
@@ -77,7 +74,7 @@ export const FormRender = memo((props: FormRenderProps) => {
           response.map(({ id, title }) => ({
             value: String(id),
             label: title,
-          }))
+          })),
         );
 
         setIsLoadingData(false);
@@ -111,14 +108,14 @@ export const FormRender = memo((props: FormRenderProps) => {
   }, [fields.data, fields.type]);
 
   return (
-    <View className="px-3 mt-4">
+    <View className="mt-4 px-3">
       {showSection && (
-        <View className="flex flex-row items-center gap-2 my-5">
-          <View className="h-[1px] bg-gray-300 w-full flex-1" />
-          <Text className="text-gray-600 max-w-[80%] text-center w-fit">
-            {fields.section?.name ?? ""}
+        <View className="my-5 flex flex-row items-center gap-2">
+          <View className="h-[1px] w-full flex-1 bg-gray-300" />
+          <Text className="w-fit max-w-[80%] text-center text-gray-600">
+            {fields.section?.name ?? ''}
           </Text>
-          <View className="h-[1px] bg-gray-300 w-full flex-1" />
+          <View className="h-[1px] w-full flex-1 bg-gray-300" />
         </View>
       )}
       <View className="flex-col gap-2">
@@ -133,9 +130,7 @@ export const FormRender = memo((props: FormRenderProps) => {
           onChange={(value) => {
             debouncedOnUpdate(fields.identifier, value);
           }}
-          onChangeExtraField={(extra) =>
-            debouncedOnUpdate(fields.identifier, extra)
-          }
+          onChangeExtraField={(extra) => debouncedOnUpdate(fields.identifier, extra)}
           selectData={selectData}
           dataWhere={dataWhere}
           onClearSelect={onClearSelect}
@@ -147,4 +142,4 @@ export const FormRender = memo((props: FormRenderProps) => {
   );
 });
 
-FormRender.displayName = "FormRender";
+FormRender.displayName = 'FormRender';

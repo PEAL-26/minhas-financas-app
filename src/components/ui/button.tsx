@@ -1,19 +1,13 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import { ElementRef, ElementType, forwardRef, isValidElement, ReactNode } from 'react';
 import {
-  ElementRef,
-  ElementType,
-  forwardRef,
-  isValidElement,
-  ReactNode,
-} from "react";
-import {
-  TouchableOpacityProps,
+  ActivityIndicator,
   Text,
   TouchableOpacity,
+  TouchableOpacityProps,
   View,
   ViewStyle,
-  ActivityIndicator,
-} from "react-native";
+} from 'react-native';
 
 export interface CustomProps extends TouchableOpacityProps {
   textClassName?: string;
@@ -28,10 +22,7 @@ export interface CustomProps extends TouchableOpacityProps {
   isLoading?: boolean;
 }
 
-export const Button = forwardRef<
-  ElementRef<typeof TouchableOpacity>,
-  CustomProps
->((props, ref) => {
+export const Button = forwardRef<ElementRef<typeof TouchableOpacity>, CustomProps>((props, ref) => {
   const {
     children,
     className,
@@ -40,7 +31,7 @@ export const Button = forwardRef<
     containerClassName,
     style,
     icon: Icon,
-    iconColor = "#000",
+    iconColor = '#000',
     iconSize,
     disabled,
     isLoading,
@@ -55,13 +46,13 @@ export const Button = forwardRef<
       disabled={disabled}
       ref={ref}
       activeOpacity={0.6}
-      className={cn("w-fit", containerClassName)}
+      className={cn('w-fit', containerClassName)}
     >
       <View style={[style]} className={cn(className)}>
         {Icon && (
           <Icon
             size={iconSize}
-            style={{ color: disabled ? "#6b7280" : iconColor }}
+            style={{ color: disabled ? '#6b7280' : iconColor }}
             className={cn(iconClassName)}
           />
         )}
@@ -80,4 +71,4 @@ export const Button = forwardRef<
   );
 });
 
-Button.displayName = "Button";
+Button.displayName = 'Button';

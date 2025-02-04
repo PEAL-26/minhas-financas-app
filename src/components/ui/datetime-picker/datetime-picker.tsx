@@ -1,18 +1,16 @@
-import DateTimePickerModal, {
-  DateTimePickerProps,
-} from "react-native-modal-datetime-picker";
+import DateTimePickerModal, { DateTimePickerProps } from 'react-native-modal-datetime-picker';
 
 export interface DatetimePickerProps
-  extends Omit<DateTimePickerProps, "onClose" | "onCancel" | "onConfirm"> {
+  extends Omit<DateTimePickerProps, 'onClose' | 'onCancel' | 'onConfirm'> {
   value?: Date;
   onChange?(date: Date | null): void;
   onClose?(): void;
   open: boolean;
-  mode?: "date" | "time" | "datetime";
+  mode?: 'date' | 'time' | 'datetime';
 }
 
 export function DatetimePicker(props: DatetimePickerProps) {
-  const { value, open, onClose, onChange, mode = "date", ...rest } = props;
+  const { value, open, onClose, onChange, mode = 'date', ...rest } = props;
 
   const handleConfirm = (date: Date) => {
     onChange?.(date);

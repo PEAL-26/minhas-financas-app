@@ -1,6 +1,6 @@
-import { View } from "react-native";
-import { InputController, SelectController } from "../ui/form-controller";
-import { RECURRENCES } from "@/constants";
+import { RECURRENCES } from '@/constants';
+import { View } from 'react-native';
+import { InputController, SelectController } from '../ui/form-controller';
 
 interface Props {
   form: any;
@@ -11,7 +11,7 @@ export function TypeRecurrenceComponent(props: Props) {
   const { form, isLoading } = props;
   return (
     <>
-      <View className="grid grid-cols-2 flex-row items-center gap-2 flex-1">
+      <View className="grid flex-1 grid-cols-2 flex-row items-center gap-2">
         <View className="flex-1">
           <SelectController
             disabled={isLoading}
@@ -20,22 +20,22 @@ export function TypeRecurrenceComponent(props: Props) {
             name="type"
             labelField="title"
             data={[
-              { id: "unique" as const, title: "Única" },
-              { id: "recurrent" as const, title: "Recorrente" },
+              { id: 'unique' as const, title: 'Única' },
+              { id: 'recurrent' as const, title: 'Recorrente' },
             ]}
             containerClassName="w-full"
             onSelect={({ id }) => {
-              if (id === "unique") {
-                form.setValue("recurrence", undefined);
-                form.setValue("customRecurrence", undefined);
+              if (id === 'unique') {
+                form.setValue('recurrence', undefined);
+                form.setValue('customRecurrence', undefined);
               }
 
-              form.setValue("type", id);
+              form.setValue('type', id);
             }}
           />
         </View>
         <View className="flex-1">
-          {form.watch("type") === "recurrent" && (
+          {form.watch('type') === 'recurrent' && (
             <SelectController
               disabled={isLoading}
               label="Recorrência"
@@ -44,21 +44,20 @@ export function TypeRecurrenceComponent(props: Props) {
               labelField="title"
               containerClassName="w-full"
               data={RECURRENCES}
-              onSelect={({ id }) => form.setValue("recurrence", id)}
+              onSelect={({ id }) => form.setValue('recurrence', id)}
             />
           )}
         </View>
       </View>
 
-      {form.watch("type") === "recurrent" &&
-        form.watch("recurrence") === null && (
-          <InputController
-            isLoading={isLoading}
-            label="Recorrência (em dias)"
-            control={form.control}
-            name="customRecurrence"
-          />
-        )}
+      {form.watch('type') === 'recurrent' && form.watch('recurrence') === null && (
+        <InputController
+          isLoading={isLoading}
+          label="Recorrência (em dias)"
+          control={form.control}
+          name="customRecurrence"
+        />
+      )}
     </>
   );
 }

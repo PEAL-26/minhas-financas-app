@@ -1,5 +1,5 @@
-import { db } from "@/db/connection";
-import { getIdValue, getIdValueOrCreate, getRecurrence } from "../utils";
+import { db } from '@/db/connection';
+import { getIdValue, getIdValueOrCreate, getRecurrence } from '../utils';
 
 type Entity = { id: number; name: string };
 export type MutationExpense = {
@@ -12,10 +12,10 @@ export type MutationExpense = {
   date: Date;
   amount: number;
   priority?: 0 | 1 | 2;
-  type: "unique" | "recurrent";
+  type: 'unique' | 'recurrent';
   recurrence?: number | null;
   customRecurrence?: number | null;
-  status?: "pending" | "done";
+  status?: 'pending' | 'done';
 };
 
 type MutationExpenseResponse = MutationExpense & {
@@ -25,31 +25,21 @@ type MutationExpenseResponse = MutationExpense & {
 };
 
 export async function mutationExpense(request: MutationExpense) {
-  const {
-    id,
-    title,
-    description,
-    amount,
-    priority,
-    type,
-    need,
-    income,
-    category,
-    status,
-  } = request;
+  const { id, title, description, amount, priority, type, need, income, category, status } =
+    request;
 
-  const need_id = await getIdValue("needs", need?.id);
-  const income_id = await getIdValue("incomes", income?.id);
-  const category_id = await getIdValueOrCreate("categories", category?.name);
+  const need_id = await getIdValue('needs', need?.id);
+  const income_id = await getIdValue('incomes', income?.id);
+  const category_id = await getIdValueOrCreate('categories', category?.name);
   const date = new Date(request.date).getTime();
   const recurrence = getRecurrence(request);
 
   if (id) {
-    const expense = await db.getFirst("expenses", { where: { id } });
-    if (!expense) throw new Error("Despesa não encontrada.");
+    const expense = await db.getFirst('expenses', { where: { id } });
+    if (!expense) throw new Error('Despesa não encontrada.');
 
     return db.update<MutationExpenseResponse>(
-      "expenses",
+      'expenses',
       {
         need_id,
         income_id,
@@ -64,10 +54,10 @@ export async function mutationExpense(request: MutationExpense) {
         status,
         updated_at: Date.now(),
       },
-      id
+      id,
     );
   } else {
-    return db.insert<MutationExpenseResponse>("expenses", {
+    return db.insert<MutationExpenseResponse>('expenses', {
       need_id,
       income_id,
       category_id,

@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { InputAutocompleteProps } from './types';
 
-export function useInputAutocomplete<TData extends Object>(
-  props: InputAutocompleteProps<TData>,
-) {
+export function useInputAutocomplete<TData extends Object>(props: InputAutocompleteProps<TData>) {
   const {
     queryKey,
     queryFn,

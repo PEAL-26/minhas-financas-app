@@ -1,7 +1,7 @@
-import { View } from "lucide-react-native";
+import { View } from 'lucide-react-native';
 
-import { Text } from "./text";
-import { Button } from "./button";
+import { Button } from './button';
+import { Text } from './text';
 
 interface Props {
   refetch?(): void;
@@ -11,15 +11,11 @@ export function ErrorComponent(props: Props) {
   const { refetch } = props;
 
   return (
-    <View className="gap-6 flex-col justify-center items-center">
-      <Text className="text-gray-2 font-medium text-xs text-center max-w-lg">
-        Oops! Algo deu errado, recarregue e se o erro persistir entre em
-        contanto com o suporte.
+    <View className="flex-col items-center justify-center gap-6">
+      <Text className="text-gray-2 max-w-lg text-center text-xs font-medium">
+        Oops! Algo deu errado, recarregue e se o erro persistir entre em contanto com o suporte.
       </Text>
-      <Button
-        textClassName="text-brand font-bold text-base"
-        onPress={() => refetch?.()}
-      >
+      <Button textClassName="text-brand font-bold text-base" onPress={() => refetch?.()}>
         Recarregar
       </Button>
     </View>

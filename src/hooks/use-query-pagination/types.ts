@@ -1,10 +1,10 @@
-import { PaginatedResult } from "@/db/database";
-import { QueryFunctionContext } from "@tanstack/react-query";
+import { PaginatedResult } from '@/db/database';
+import { QueryFunctionContext } from '@tanstack/react-query';
 
 type QueryKey = readonly unknown[];
 type TPageParam = number;
 export type QueryFnContext = QueryFunctionContext<QueryKey, TPageParam>;
-export type FnProps = Omit<Partial<QueryFnContext>, "pageParam"> & {
+export type FnProps = Omit<Partial<QueryFnContext>, 'pageParam'> & {
   page?: number;
 };
 

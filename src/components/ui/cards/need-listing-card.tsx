@@ -1,13 +1,14 @@
-import { TouchableOpacity, View } from "react-native";
-import { FolderIcon } from "lucide-react-native";
+import { FolderIcon } from 'lucide-react-native';
+import { TouchableOpacity, View } from 'react-native';
 
-import { OperationTypes } from "@/types";
-import { formatCurrency } from "@/helpers/currency";
-import { PRIORITY_COLOR, PRIORITY_MAP, TYPES_MAP } from "@/constants";
+import { PRIORITY_COLOR, PRIORITY_MAP, TYPES_MAP } from '@/constants';
+import { formatCurrency } from '@/helpers/currency';
+import { OperationTypes } from '@/types';
 
-import { Text } from "../text";
-import { Badge } from "../badge";
-import { Recurrence } from "../recurrence";
+import { shadowStyles } from '@/styles/styles';
+import { Badge } from '../badge';
+import { Recurrence } from '../recurrence';
+import { Text } from '../text';
 
 type NeedDataType = {
   id: number;
@@ -22,43 +23,37 @@ type NeedDataType = {
 
 interface Props {
   data: NeedDataType;
+  onPress?(): void;
 }
+
 export function NeedListingCard(props: Props) {
-  const { data } = props;
+  const { data, onPress } = props;
 
   return (
-    <TouchableOpacity activeOpacity={0.6}>
-      <View className="flex flex-col p-4 border rounded-md shadow bg-white border-zinc-200">
-        <View className="flex flex-row justify-between items-center">
-          <Text className="font-bold text-base line-clamp-2" numberOfLines={2}>
+    <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
+      <View
+        style={shadowStyles.shadow}
+        className="flex flex-col rounded-md border border-zinc-200 bg-white p-4"
+      >
+        <View className="flex flex-row items-center justify-between">
+          <Text className="line-clamp-2 text-base font-bold" numberOfLines={2}>
             {data.title}
           </Text>
-          <Badge
-            text={PRIORITY_MAP[data.priority]}
-            type={PRIORITY_COLOR[data.priority]}
-          />
+          <Badge text={PRIORITY_MAP[data.priority]} type={PRIORITY_COLOR[data.priority]} />
         </View>
-        <View className="flex flex-row justify-between items-center mt-2">
+        <View className="mt-2 flex flex-row items-center justify-between">
           <View className="flex flex-row items-center gap-1">
             {data?.category?.name && (
               <>
-                <FolderIcon
-                  size={14}
-                  color={"#52525b"}
-                  className="text-zinc-600"
-                />
-                <Text className="text-sm text-zinc-600">
-                  {data.category?.name}
-                </Text>
+                <FolderIcon size={14} color={'#52525b'} className="text-zinc-600" />
+                <Text className="text-sm text-zinc-600">{data.category?.name}</Text>
               </>
             )}
           </View>
-          <Text className="font-bold text-blue-600">
-            {formatCurrency(data.amount)}
-          </Text>
+          <Text className="font-bold text-blue-600">{formatCurrency(data.amount)}</Text>
         </View>
 
-        <View className="flex flex-row justify-between items-center mt-2">
+        <View className="mt-2 flex flex-row items-center justify-between">
           <Badge text={TYPES_MAP[data.type]} />
           <Recurrence value={data?.recurrence} />
         </View>

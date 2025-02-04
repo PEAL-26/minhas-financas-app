@@ -1,5 +1,5 @@
-import { numberFromString } from "@/helpers/zod";
-import { z } from "zod";
+import { numberFromString } from '@/helpers/zod';
+import { z } from 'zod';
 
 export const needSchema = z.object({
   id: z.number().optional(),
@@ -10,22 +10,22 @@ export const needSchema = z.object({
     })
     .optional(),
   title: z.string({
-    message: "Campo Obrigatório.",
-    required_error: "Campo obrigatório!",
+    message: 'Campo Obrigatório.',
+    required_error: 'Campo obrigatório!',
   }),
   description: z.string().optional(),
   priority: z.number().default(1).optional(),
-  type: z.enum(["unique", "recurrent"], {
-    message: "Campo Obrigatório.",
-    required_error: "Campo obrigatório!",
-    invalid_type_error: "Tipo Inválido!",
+  type: z.enum(['unique', 'recurrent'], {
+    message: 'Campo Obrigatório.',
+    required_error: 'Campo obrigatório!',
+    invalid_type_error: 'Tipo Inválido!',
   }),
   recurrence: z.number().nullish(),
   customRecurrence: z.number().nullish(),
   amount: numberFromString({
-    message: "Campo Obrigatório.",
-    required_error: "Campo obrigatório!",
-    invalid_type_error: "Valor Inválido!",
+    message: 'Campo Obrigatório.',
+    required_error: 'Campo obrigatório!',
+    invalid_type_error: 'Valor Inválido!',
   }).optional(),
   needPrices: z
     .array(
@@ -35,11 +35,11 @@ export const needSchema = z.object({
           name: z.string(),
         }),
         amount: z.number(),
-      })
+      }),
     )
     .default([])
     .optional(),
-  status: z.enum(["pending", "done"]).default("pending").optional(),
+  status: z.enum(['pending', 'done']).default('pending').optional(),
 });
 
 export type NeedSchemaType = z.infer<typeof needSchema>;

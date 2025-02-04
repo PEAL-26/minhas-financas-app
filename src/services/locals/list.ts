@@ -1,4 +1,4 @@
-import { db } from "@/db/connection";
+import { db } from '@/db/connection';
 
 export type ListLocalsParams = {
   query?: string;
@@ -13,7 +13,7 @@ export type ListLocalsResponseData = {
 
 export async function listLocals(params?: ListLocalsParams) {
   const { page, size, query } = params || {};
-  return db.listPaginate<ListLocalsResponseData>("locals", {
+  return db.listPaginate<ListLocalsResponseData>('locals', {
     select: {
       id: true,
       name: true,
@@ -23,9 +23,9 @@ export async function listLocals(params?: ListLocalsParams) {
     where: {
       name: {
         value: query,
-        op: "like",
+        op: 'like',
       },
     },
-    orderBy: [{ created_at: "desc" }],
+    orderBy: [{ created_at: 'desc' }],
   });
 }

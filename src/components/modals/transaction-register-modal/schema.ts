@@ -1,15 +1,15 @@
-import { numberFromString } from "@/helpers/zod";
-import { z } from "zod";
+import { numberFromString } from '@/helpers/zod';
+import { z } from 'zod';
 
 export const transactionSchema = z.object({
   id: z.number().optional(),
   type: z
-    .enum(["income", "expense"], {
-      invalid_type_error: "Tipo Inválido!",
-      required_error: "Campo Obrigatório!",
-      message: "Campo Obrigatório!",
+    .enum(['income', 'expense'], {
+      invalid_type_error: 'Tipo Inválido!',
+      required_error: 'Campo Obrigatório!',
+      message: 'Campo Obrigatório!',
     })
-    .default("expense"),
+    .default('expense'),
   income: z
     .object({
       id: z.number(),
@@ -30,16 +30,16 @@ export const transactionSchema = z.object({
     .optional(),
   date: z
     .date({
-      invalid_type_error: "Data Inválida!",
-      required_error: "Campo Obrigatório!",
-      message: "Campo Obrigatório!",
+      invalid_type_error: 'Data Inválida!',
+      required_error: 'Campo Obrigatório!',
+      message: 'Campo Obrigatório!',
     })
     .default(new Date()),
   title: z.string().optional(),
   amount: numberFromString({
-    message: "Campo Obrigatório.",
-    required_error: "Campo obrigatório!",
-    invalid_type_error: "Valor Inválido!",
+    message: 'Campo Obrigatório.',
+    required_error: 'Campo obrigatório!',
+    invalid_type_error: 'Valor Inválido!',
   }),
   local: z
     .object({

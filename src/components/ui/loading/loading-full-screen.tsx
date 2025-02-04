@@ -1,20 +1,15 @@
-import { Modal } from "react-native";
-import { Loading } from "./loading";
+import { Modal } from 'react-native';
+import { Loading } from './loading';
 
 interface Props {
   show?: boolean;
   backgroundColor?: string;
   color?: string;
-  size?: number | "small" | "large";
+  size?: number | 'small' | 'large';
 }
 
 export function LoadingFullScreen(props: Props) {
-  const {
-    show = true,
-    backgroundColor = "#00000050",
-    color = "#FFF",
-    size = "small",
-  } = props;
+  const { show = true, backgroundColor = '#00000050', color = '#FFF', size = 'small' } = props;
 
   return (
     <Modal
@@ -24,11 +19,7 @@ export function LoadingFullScreen(props: Props) {
       statusBarTranslucent
       animationType="fade"
     >
-      <Loading
-        backgroundColor={backgroundColor}
-        color={color}
-        size={size}
-      />
+      <Loading backgroundColor={backgroundColor} color={color} size={size} />
     </Modal>
   );
 }
