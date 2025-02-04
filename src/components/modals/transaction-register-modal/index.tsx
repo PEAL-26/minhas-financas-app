@@ -1,52 +1,45 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { TouchableOpacity, View } from "react-native";
-import { PlusIcon, TrashIcon } from "lucide-react-native";
-import { FormProvider, useFieldArray } from "react-hook-form";
+import { View } from "react-native";
+import { FormProvider } from "react-hook-form";
 
-import { Text } from "@/components/ui/text";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRegister } from "@/hooks/use-register";
 
 import {
   InputAutocompleteController,
   InputController,
+  InputDatetimeController,
   SelectController,
+  SwitchToggleTextController,
   TextareaController,
 } from "@/components/ui/form-controller";
 import { Loading } from "@/components/ui/loading";
-import { BADGE_COLOR } from "@/components/ui/badge";
 import { ErrorComponent } from "@/components/ui/error";
 import {
   getTransactionById,
   mutationTransaction,
 } from "@/services/transactions";
-import { InputAutocomplete } from "@/components/ui/input-autocomplete";
-import { PRIORITY_COLOR, PRIORITY_MAP, RECURRENCES } from "@/constants";
 
 import { TransactionRegisterModalProps } from "./types";
 import { transactionSchema, TransactionSchemaType } from "./schema";
 import { BottomSheetBaseModal } from "../bottom-sheet-base-modal";
-import { useQueryPagination } from "@/hooks/use-query-pagination";
-import { listCategories } from "@/services/categories";
 import { useQueryFilter } from "@/hooks/use-query-filter";
-import { PriorityComponent } from "@/components/shared/priority";
-import { TypeRecurrenceComponent } from "@/components/shared/type-recurrence";
+import { listIncomes } from "@/services/incomes";
+import { listExpenses } from "@/services/expenses";
+import { listLocals } from "@/services/locals";
 
 export function TransactionRegisterModal(props: TransactionRegisterModalProps) {
   const { transactionId, show, onClose } = props;
 
   const { form, handleSubmit, isLoading } = useRegister<TransactionSchemaType>({
     schema: transactionSchema,
-    defaultValues: { transactionId, transactionPrices: [], priority: 1 },
+    defaultValues: { id: transactionId, type: "expense" },
     mutationFn: mutationTransaction,
-  });
-
-  const transactionPrices = useFieldArray({
-    control: form.control,
-    name: "transactionPrices",
+    queryKey: ["transactions"],
+    onSuccess: () => {
+      onClose?.();
+    },
   });
 
   const transaction = useQuery({
@@ -54,16 +47,32 @@ export function TransactionRegisterModal(props: TransactionRegisterModalProps) {
     queryKey: ["transaction", transactionId],
   });
 
-  const category = useQueryFilter({
-    fn: listCategories,
-    queryKey: ["categories"],
+  const income = useQueryFilter({
+    fn: listIncomes,
+    queryKey: ["incomes"],
+  });
+
+  const expense = useQueryFilter({
+    fn: listExpenses,
+    queryKey: ["expenses"],
+  });
+
+  const incomeExpense = useQueryFilter({
+    fn: listIncomes,
+    queryKey: ["incomes_expenses"],
+  });
+
+  const local = useQueryFilter({
+    fn: listLocals,
+    queryKey: ["locals"],
   });
 
   return (
     <BottomSheetBaseModal
-      title={transactionId ? "Editar Necessidade" : "Nova Necessidade"}
+      title={transactionId ? "Editar Transação" : "Nova Transação"}
       show={show}
       onClose={onClose}
+      isLoading={isLoading}
     >
       {transaction.isLoading && !transaction.isError && <Loading />}
       {!transaction.isLoading && transaction.isError && (
@@ -72,77 +81,108 @@ export function TransactionRegisterModal(props: TransactionRegisterModalProps) {
       {!transaction.isLoading && !transaction.isError && (
         <FormProvider {...form}>
           <View className="flex flex-col gap-3 w-full px-3 py-4">
-            <InputAutocompleteController
-              label="Categoria"
+            <View className="flex flex-row items-center justify-center">
+              <SwitchToggleTextController
+                control={form.control}
+                name="type"
+                items={
+                  [
+                    { value: "expense", title: "Despesa" },
+                    { value: "income", title: "Renda" },
+                  ] as const
+                }
+                isLoading={isLoading}
+              />
+            </View>
+            {form.watch("type") === "expense" && (
+              <>
+                <SelectController
+                  isLoading={isLoading}
+                  label="Despesa"
+                  control={form.control}
+                  name="expense"
+                  labelField="title"
+                  data={[{ id: 0, title: "Nenhuma" }, ...expense.data]}
+                  containerClassName="w-full"
+                  search
+                  onSelect={(item) =>
+                    form.setValue("expense", item.id ? item : undefined)
+                  }
+                />
+                <SelectController
+                  isLoading={isLoading}
+                  label="Renda a ser usada"
+                  control={form.control}
+                  name="incomeExpense"
+                  labelField="title"
+                  data={[{ id: 0, title: "Nenhuma" }, ...income.data]}
+                  containerClassName="w-full"
+                  search
+                  onSelect={(item) =>
+                    form.setValue("income", item.id ? item : undefined)
+                  }
+                />
+              </>
+            )}
+
+            {form.watch("type") === "income" && (
+              <SelectController
+                isLoading={isLoading}
+                label="Renda"
+                control={form.control}
+                name="income"
+                labelField="title"
+                data={[{ id: 0, title: "Nenhuma" }, ...income.data]}
+                containerClassName="w-full"
+                search
+                onSelect={(item) =>
+                  form.setValue("income", item.id ? item : undefined)
+                }
+              />
+            )}
+
+            {!form.watch("expense") && !form.watch("income") && (
+              <InputController
+                label="Título"
+                placeholder="Título"
+                control={form.control}
+                name="title"
+              />
+            )}
+
+            <InputDatetimeController
+              label="Data"
               control={form.control}
-              name="category.name"
-              onSelectionDataChange={(item) => {
-                form.setValue("category", item);
-              }}
-              data={category.data}
+              name="date"
+              isLoading={isLoading}
+              datetimePickerProps={{ maximumDate: new Date() }}
             />
-            <InputController
-              label="Título"
-              control={form.control}
-              name="title"
-            />
-            <TextareaController
-              label="Descrição"
-              control={form.control}
-              name="description"
-            />
-            <PriorityComponent form={form} />
-            <TypeRecurrenceComponent form={form} />
+
             <InputController
               label="Valor"
               control={form.control}
               name="amount"
+              placeholder="Valor"
+              keyboardType="number-pad"
             />
-            <View className="space-y-1">
-              <Label>Preços por Local</Label>
-              {form?.watch("transactionPrices")?.map((price, index) => (
-                <View
-                  key={index}
-                  className="flex flex-row items-start space-x-2"
-                >
-                  <InputAutocomplete
-                    placeholder="Local"
-                    value={price.local?.name}
-                    // onChange={(e) =>
-                    //   handleTransactionPriceChange(index, "local", e.target.value)
-                    // }
-                    // onChangeText={()=>}
-                  />
-                  <Input
-                  // type="number"
-                  // step="0.01"
-                  // placeholder="Valor"
-                  // value={price.amount}
-                  // onChange={(e) =>
-                  //   handleTransactionPriceChange(index, "amount", e.target.value)
-                  // }
-                  />
-                  <Button
-                    // variant="destructive"
-                    // size="icon"
-                    className="flex justify-center items-center h-7 bg-red-500 px-1 rounded-md"
-                    onPress={() => transactionPrices.remove(index)}
-                  >
-                    <TrashIcon className="h-4 w-4 text-white" />
-                  </Button>
-                </View>
-              ))}
-              <Button
-                // variant="outline"
-                onPress={() => transactionPrices.append({ amount: 0 })}
-                className="flex flex-row items-center rounded-md h-8 border px-3 border-border mt-4"
-              >
-                <>
-                  <PlusIcon className="h-4 w-4 mr-2" />
-                  <Text className="text-xs">Adicionar Preço</Text>
-                </>
-              </Button>
-            </View>
+
+            <InputAutocompleteController
+              label="Local"
+              control={form.control}
+              name="local.name"
+              onSelectionDataChange={(item) => {
+                form.setValue("local", item);
+              }}
+              data={local.data}
+            />
+
+            <TextareaController
+              label="Observação"
+              placeholder="Observação"
+              control={form.control}
+              name="observation"
+            />
+
             <Button
               disabled={isLoading}
               containerClassName="w-full"

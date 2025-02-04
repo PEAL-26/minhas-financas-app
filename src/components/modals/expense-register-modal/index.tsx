@@ -8,6 +8,7 @@ import { useRegister } from "@/hooks/use-register";
 import {
   InputAutocompleteController,
   InputController,
+  InputDatetimeController,
   SelectController,
   SwitchToggleTextController,
   TextareaController,
@@ -31,8 +32,12 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
 
   const { form, handleSubmit, isLoading } = useRegister<ExpenseSchemaType>({
     schema: expenseSchema,
-    defaultValues: { expenseId, expensePrices: [], priority: 1 },
+    defaultValues: { id: expenseId },
     mutationFn: mutationExpense,
+    queryKey: ["expenses"],
+    onSuccess: () => {
+      onClose?.();
+    },
   });
 
   const expense = useQuery({
@@ -60,6 +65,7 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
       title={expenseId ? "Editar Despesa" : "Nova Despesa"}
       show={show}
       onClose={onClose}
+      isLoading={isLoading}
     >
       {expense.isLoading && !expense.isError && <Loading />}
       {!expense.isLoading && expense.isError && (
@@ -69,11 +75,12 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
         <FormProvider {...form}>
           <View className="flex flex-col gap-4 w-full px-4 py-4">
             <SelectController
+              isLoading={isLoading}
               label="Necessidade"
               control={form.control}
               name="need"
-              labelField="name"
-              data={[{ id: 0, name: "Nenhuma" }, ...need.data]}
+              labelField="title"
+              data={[{ id: 0, title: "Nenhuma" }, ...need.data]}
               containerClassName="w-full"
               search
               onSelect={(item) =>
@@ -85,43 +92,62 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
               label="Renda"
               control={form.control}
               name="income"
-              labelField="name"
-              data={[{ id: 0, name: "Nenhuma" }, ...income.data]}
+              labelField="title"
+              data={[{ id: 0, title: "Nenhuma" }, ...income.data]}
               containerClassName="w-full"
               search
               onSelect={(item) =>
                 form.setValue("income", item.id ? item : undefined)
               }
+              isLoading={isLoading}
             />
 
             <InputAutocompleteController
               label="Categoria"
               control={form.control}
               name="category.name"
+              placeholder="Categoria"
               onSelectionDataChange={(item) => {
                 form.setValue("category", item);
               }}
               data={category.data}
+              isLoading={isLoading}
             />
 
             <InputController
               label="Título"
+              placeholder="Título"
               control={form.control}
               name="title"
+              isLoading={isLoading}
+            />
+
+            <InputDatetimeController
+              label="Data"
+              control={form.control}
+              name="date"
+              isLoading={isLoading}
             />
 
             <TextareaController
               label="Descrição"
+              placeholder="Descrição"
               control={form.control}
               name="description"
+              isLoading={isLoading}
             />
-            <PriorityComponent form={form} />
-            <TypeRecurrenceComponent form={form} />
+
+            <PriorityComponent form={form} isLoading={isLoading}/>
+
+            <TypeRecurrenceComponent form={form} isLoading={isLoading}/>
 
             <InputController
               label="Valor"
+              placeholder="Valor"
               control={form.control}
               name="amount"
+              isLoading={isLoading}
+              keyboardType="number-pad"
             />
 
             <SwitchToggleTextController
@@ -134,10 +160,12 @@ export function ExpenseRegisterModal(props: ExpenseRegisterModalProps) {
                   { value: "done", title: "Efectuada" },
                 ] as const
               }
+              isLoading={isLoading}
             />
 
             <Button
               disabled={isLoading}
+              isLoading={isLoading}
               containerClassName="w-full"
               className="w-full bg-primary h-10 rounded-md flex flex-row justify-center items-center"
               textClassName="text-white"

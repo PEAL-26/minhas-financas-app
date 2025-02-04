@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { alert } from "@/helpers/alert";
+import { alert } from "@/helpers/alert-message";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 

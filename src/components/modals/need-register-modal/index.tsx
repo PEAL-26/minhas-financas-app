@@ -13,6 +13,7 @@ import { useRegister } from "@/hooks/use-register";
 import {
   InputAutocompleteController,
   InputController,
+  SwitchToggleTextController,
   TextareaController,
 } from "@/components/ui/form-controller";
 import { Loading } from "@/components/ui/loading";
@@ -33,8 +34,12 @@ export function NeedRegisterModal(props: NeedRegisterModalProps) {
 
   const { form, handleSubmit, isLoading } = useRegister<NeedSchemaType>({
     schema: needSchema,
-    defaultValues: { needId, needPrices: [], priority: 1 },
+    defaultValues: { id: needId, needPrices: [], priority: 1 },
     mutationFn: mutationNeed,
+    queryKey: ["needs"],
+    onSuccess: () => {
+      onClose?.();
+    },
   });
 
   const needPrices = useFieldArray({
@@ -57,6 +62,7 @@ export function NeedRegisterModal(props: NeedRegisterModalProps) {
       title={needId ? "Editar Necessidade" : "Nova Necessidade"}
       show={show}
       onClose={onClose}
+      isLoading={isLoading}
     >
       {need.isLoading && !need.isError && <Loading />}
       {!need.isLoading && need.isError && (
@@ -67,35 +73,57 @@ export function NeedRegisterModal(props: NeedRegisterModalProps) {
           <View className="flex flex-col gap-3 w-full px-3 py-4">
             <InputAutocompleteController
               label="Categoria"
+              placeholder="Categoria"
               control={form.control}
               name="category.name"
               onSelectionDataChange={(item) => {
                 form.setValue("category", item);
               }}
               data={category.data}
+              isLoading={isLoading}
             />
 
             <InputController
               label="Título"
+              placeholder="Título"
               control={form.control}
               name="title"
+              isLoading={isLoading}
             />
 
             <TextareaController
               label="Descrição"
+              placeholder="Descrição"
               control={form.control}
               name="description"
+              isLoading={isLoading}
             />
 
-            <PriorityComponent form={form} />
-            <TypeRecurrenceComponent form={form} />
+            <PriorityComponent form={form} isLoading={isLoading} />
+
+            <TypeRecurrenceComponent form={form} isLoading={isLoading} />
 
             <InputController
               label="Valor"
               control={form.control}
               name="amount"
+              isLoading={isLoading}
+              placeholder="Valor"
+              keyboardType="number-pad"
             />
 
+            <SwitchToggleTextController
+              label="Estado"
+              control={form.control}
+              name="status"
+              items={
+                [
+                  { value: "pending", title: "Pendente" },
+                  { value: "done", title: "Efectuada" },
+                ] as const
+              }
+              isLoading={isLoading}
+            />
             <View className="space-y-1">
               <Label>Preços por Local</Label>
               {form?.watch("needPrices")?.map((price, index) => (
@@ -110,6 +138,7 @@ export function NeedRegisterModal(props: NeedRegisterModalProps) {
                     //   handleNeedPriceChange(index, "local", e.target.value)
                     // }
                     // onChangeText={()=>}
+                    isLoading={isLoading}
                   />
                   <Input
                   // type="number"
@@ -119,10 +148,12 @@ export function NeedRegisterModal(props: NeedRegisterModalProps) {
                   // onChange={(e) =>
                   //   handleNeedPriceChange(index, "amount", e.target.value)
                   // }
+                  // isLoading={isLoading}
                   />
                   <Button
                     // variant="destructive"
                     // size="icon"
+                    disabled={isLoading}
                     className="flex justify-center items-center h-7 bg-red-500 px-1 rounded-md"
                     onPress={() => needPrices.remove(index)}
                   >
@@ -131,9 +162,12 @@ export function NeedRegisterModal(props: NeedRegisterModalProps) {
                 </View>
               ))}
               <Button
-                // variant="outline"
-                onPress={() => needPrices.append({ amount: 0 })}
-                className="flex flex-row items-center rounded-md h-8 border px-3 border-border mt-4"
+                onPress={() =>
+                  needPrices.append({ local: { name: "" }, amount: 0 })
+                }
+                className="flex flex-row items-center rounded-md h-8 border px-3 border-border mt-4 w-fit"
+                containerClassName="w-fit"
+                disabled={isLoading}
               >
                 <>
                   <PlusIcon className="h-4 w-4 mr-2" />
@@ -141,6 +175,7 @@ export function NeedRegisterModal(props: NeedRegisterModalProps) {
                 </>
               </Button>
             </View>
+
             <Button
               disabled={isLoading}
               containerClassName="w-full"
@@ -148,7 +183,7 @@ export function NeedRegisterModal(props: NeedRegisterModalProps) {
               textClassName="text-white"
               onPress={handleSubmit}
             >
-            Guardar
+              Guardar
             </Button>
           </View>
         </FormProvider>

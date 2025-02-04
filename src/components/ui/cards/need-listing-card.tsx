@@ -12,7 +12,7 @@ import { Recurrence } from "../recurrence";
 type NeedDataType = {
   id: number;
   title: string;
-  category?: string;
+  category?: { name: string };
   description?: string;
   priority: 0 | 1 | 2;
   amount: number;
@@ -40,8 +40,18 @@ export function NeedListingCard(props: Props) {
         </View>
         <View className="flex flex-row justify-between items-center mt-2">
           <View className="flex flex-row items-center gap-1">
-            <FolderIcon size={14} color={"#52525b"}className="text-zinc-600" />
-            <Text className="text-sm text-zinc-600">{data.category}</Text>
+            {data?.category?.name && (
+              <>
+                <FolderIcon
+                  size={14}
+                  color={"#52525b"}
+                  className="text-zinc-600"
+                />
+                <Text className="text-sm text-zinc-600">
+                  {data.category?.name}
+                </Text>
+              </>
+            )}
           </View>
           <Text className="font-bold text-blue-600">
             {formatCurrency(data.amount)}

@@ -6,7 +6,9 @@ import { Text } from "../ui/text";
 
 interface Props {
   form: any;
+  isLoading?: boolean;
 }
+
 export function PriorityComponent(props: Props) {
   const { form } = props;
 
@@ -14,8 +16,9 @@ export function PriorityComponent(props: Props) {
     <View className="flex flex-row gap-2 justify-between items-center">
       <Label htmlFor="priority">Prioridade</Label>
       <View className="flex flex-row items-center gap-2">
-        {[0 as const, 1 as const, 2 as const].map((p) => (
+        {[0 as const, 1 as const, 2 as const].map((p, index) => (
           <TouchableOpacity
+            key={index}
             onPress={() => form.setValue("priority", p)}
             style={[
               {
@@ -24,6 +27,8 @@ export function PriorityComponent(props: Props) {
                 backgroundColor:
                   p === form.watch("priority")
                     ? BADGE_COLOR[PRIORITY_COLOR[p]]?.bg
+                    : p === 1
+                    ? BADGE_COLOR[PRIORITY_COLOR[1]]?.bg
                     : undefined,
               },
             ]}

@@ -25,16 +25,33 @@ export function SelectController<
   TContext = any,
   TData = any
 >(props: Props<TFieldValues, TContext, TData>) {
-  const { name, control, defaultValue, label, containerClassName, ...rest } =
-    props;
+  const {
+    name,
+    control,
+    defaultValue,
+    label,
+    containerClassName,
+    isLoading,
+    ...rest
+  } = props;
   return (
     <FormController defaultValue={defaultValue} name={name} control={control}>
       {({ field, fieldState }) => (
-        <View className={cn("flex flex-col gap-2", containerClassName)}>
-          {label && <Label>{label}</Label>}
-          <SelectData {...rest} {...field} />
+        <View className={cn("flex flex-col", containerClassName)}>
+          {label && <Label className="mb-2">{label}</Label>}
+          <SelectData
+            {...rest}
+            {...field}
+            disabled={isLoading || rest?.disabled}
+            onSelect={(item, index) => {
+              field.onChange(item);
+              props?.onSelect?.(item, index);
+            }}
+          />
           {fieldState?.error?.message && (
-            <Text className="text-xs text-red-500">{fieldState?.error?.message}</Text>
+            <Text className="text-xs text-red-500 mt-1">
+              {fieldState?.error?.message}
+            </Text>
           )}
         </View>
       )}

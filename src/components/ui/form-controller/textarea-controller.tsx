@@ -28,11 +28,15 @@ export function TextareaController<
   return (
     <FormController defaultValue={defaultValue} name={name} control={control}>
       {({ field, fieldState }) => (
-        <View className={cn("flex flex-col gap-2", containerClassName)}>
-          {label && <Label>{label}</Label>}
-          <Textarea {...rest} {...field} />
+        <View className={cn("flex flex-col", containerClassName)}>
+          {label && <Label className="mb-2">{label}</Label>}
+          <Textarea
+            {...rest}
+            {...field}
+            onChangeText={(text) => field.onChange(text)}
+          />
           {fieldState?.error?.message && (
-            <Text className="text-xs text-red-500">
+            <Text className="text-xs text-red-500 mt-1F">
               {fieldState?.error?.message}
             </Text>
           )}

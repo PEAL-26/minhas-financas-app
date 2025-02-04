@@ -19,7 +19,7 @@ import { Recurrence } from "../recurrence";
 type ExpenseDataType = {
   id: number;
   title: string;
-  category?: string;
+  category?: { name: string };
   date: Date;
   amount: number;
   priority: 0 | 1 | 2;
@@ -46,12 +46,12 @@ export function ExpenseListingCard(props: Props) {
             type={data.status === "done" ? "info" : STATUS_COLOR[data.status]}
           />
         </View>
-        {data?.category && (
+        {data?.category?.name && (
           <Text
             className="text-zinc-600 text-xs line-clamp-1"
             numberOfLines={1}
           >
-            {data.category}
+            {data.category.name}
           </Text>
         )}
         <View className="flex flex-row justify-between items-center mt-2">

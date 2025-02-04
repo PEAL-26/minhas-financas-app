@@ -4,7 +4,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { BottomSheetBaseModalProps } from "./type";
 
 export function useBottomSheetBaseModal(props: BottomSheetBaseModalProps) {
-  const { show, onClose } = props;
+  const { show, onClose, isLoading } = props;
 
   // ref
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -19,12 +19,13 @@ export function useBottomSheetBaseModal(props: BottomSheetBaseModalProps) {
 
   const handleSheetChanges = useCallback(
     (index: number) => {
-      console.log("handleSheetChanges", index);
+      if (isLoading) return;
+
       if (index === -1) {
         onClose?.();
       }
     },
-    [onClose]
+    [onClose, isLoading]
   );
 
   useEffect(() => {

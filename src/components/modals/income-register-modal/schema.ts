@@ -1,3 +1,4 @@
+import { numberFromString } from "@/helpers/zod";
 import { z } from "zod";
 
 export const incomeSchema = z.object({
@@ -8,15 +9,17 @@ export const incomeSchema = z.object({
   }),
   description: z.string().optional(),
   currency: z.string().default("AOA").optional(),
-  date: z.date({
+  date: z
+    .date({
+      message: "Campo Obrigatório.",
+      required_error: "Campo obrigatório!",
+      invalid_type_error: "Data inválida!",
+    })
+    .default(new Date()),
+  amount: numberFromString({
     message: "Campo Obrigatório.",
     required_error: "Campo obrigatório!",
-    invalid_type_error: "Data inválida!",
-  }),
-  amount: z.number({
-    message: "Campo Obrigatório.",
-    required_error: "Campo obrigatório!",
-    invalid_type_error: "Valor inválido!",
+    invalid_type_error: "Valor Inválido!",
   }),
   type: z
     .enum(["unique", "recurrent"], {

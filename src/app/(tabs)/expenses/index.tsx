@@ -4,24 +4,14 @@ import { ExpenseListingCard } from "@/components/ui/cards";
 import { FlashList, setFlashListLoader } from "@/components/ui/flash-list";
 import { colors } from "@/styles/colors";
 import { SwipeableActions } from "@/components/ui/swipeable";
+import { useQueryPagination } from "@/hooks/use-query-pagination";
+import { listExpenses } from "@/services/expenses";
 
 export default function ExpensesScreen() {
-  const data = Array.from({ length: 5 }, (_, index) => ({
-    id: index,
-    title: `Despesa ${index + 1}`,
-    category: `Categoria ${index + 1}`,
-    date: new Date(),
-    amount: 50 * (index + 1),
-    priority: (index % 3) as 0 | 1 | 2,
-    type: index % 2 === 0 ? ("unique" as const) : ("recurrent" as const),
-    recurrence: index % 2 === 0 ? null : 30,
-    status: index % 2 === 0 ? ("pending" as const) : ("done" as const),
-  }));
-
-  const isLoading = false;
-  const isFetching = false;
-  const isError = false;
-  const refetch = () => {};
+  const { data, isLoading, isFetching, isError, refetch } = useQueryPagination({
+    fn: () => listExpenses(),
+    queryKey: ["expenses"],
+  });
 
   return (
     <View className="flex h-full w-full flex-1 flex-col pb-[72px] px-4">

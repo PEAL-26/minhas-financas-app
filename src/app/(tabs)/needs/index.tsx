@@ -3,23 +3,14 @@ import { RefreshControl, View } from "react-native";
 import { NeedListingCard } from "@/components/ui/cards";
 import { FlashList, setFlashListLoader } from "@/components/ui/flash-list";
 import { colors } from "@/styles/colors";
+import { useQueryPagination } from "@/hooks/use-query-pagination";
+import { listNeeds } from "@/services/needs";
 
 export default function NeedsScreen() {
-  const data = Array.from({ length: 5 }, (_, index) => ({
-    id: index,
-    category: `categoria ${index + 1}`,
-    title: `Necessidade ${index + 1}`,
-    description: `Descrição da necessidade ${index + 1}`,
-    priority: (index % 3) as 0 | 1 | 2,
-    type: index % 2 === 0 ? ("unique" as const) : ("recurrent" as const),
-    recurrence: index % 2 === 0 ? null : 30,
-    amount: 75 * (index + 1),
-  }));
-
-  const isLoading = false;
-  const isFetching = false;
-  const isError = false;
-  const refetch = () => {};
+  const { data, isLoading, isFetching, isError, refetch } = useQueryPagination({
+    fn: () => listNeeds(),
+    queryKey: ["needs"],
+  });
 
   return (
     <View className="flex h-full w-full flex-1 flex-col pb-[72px] px-4">

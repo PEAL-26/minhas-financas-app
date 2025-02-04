@@ -30,7 +30,7 @@ export function SwitchToggleTextController<
   return (
     <FormController defaultValue={defaultValue} name={name} control={control}>
       {({ field, fieldState }) => (
-        <View className={cn("flex flex-col gap-2", containerClassName)}>
+        <View className={cn("flex flex-col", containerClassName)}>
           <View
             className={cn(
               "flex flex-row items-center gap-2 flex-1 justify-between"
@@ -44,7 +44,7 @@ export function SwitchToggleTextController<
             />
           </View>
           {fieldState?.error?.message && (
-            <Text className="text-xs text-red-500">
+            <Text className="text-xs text-red-500 mt-1">
               {fieldState?.error?.message}
             </Text>
           )}

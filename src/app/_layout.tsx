@@ -17,24 +17,17 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 
-// import { connectionDrizzle, openDatabase } from "@/db";
-
 import migrations from "../../drizzle/migrations";
 import { colors } from "@/styles/colors";
-import { Header } from "@/components/ui/header";
+import { connectionDrizzle, openDatabase } from "@/db/connection";
 
 SplashScreen.preventAutoHideAsync();
-// SplashScreen.setOptions({
-//   duration: 1000,
-//   fade: true,
-// });
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  // useDrizzleStudio(openDatabase);
-
-  // const migration = useMigrations(connectionDrizzle, migrations);
+  useDrizzleStudio(openDatabase);
+  const migration = useMigrations(connectionDrizzle, migrations);
 
   const [fontLoaded] = useFonts({
     SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
@@ -48,19 +41,19 @@ export default function RootLayout() {
     }
   }, [fontLoaded, screenLoaded]);
 
-  // if (migration?.error) {
-  //   return (
-  //     <View className="flex-1 justify-center items-center">
-  //       <Text>Oops! Migration error: {migration?.error?.message}</Text>
-  //     </View>
-  //   );
-  // }
+  if (migration?.error) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text>Oops! Migration error: {migration?.error?.message}</Text>
+      </View>
+    );
+  }
 
-  if (!fontLoaded || !screenLoaded /*|| !migration.success*/) {
+  if (!fontLoaded || !screenLoaded || !migration.success) {
     return (
       <View className="flex-1 justify-center items-center ">
         <ActivityIndicator color={colors.primary.DEFAULT} size="small" />
-        <StatusBar style="dark" translucent animated />
+        <StatusBar style="dark" translucent animated backgroundColor="transparent"  />
       </View>
     );
   }
@@ -88,7 +81,7 @@ export default function RootLayout() {
                     <Stack.Screen name="+not-found" />
                   </Stack>
                 </View>
-                <StatusBar style="dark" translucent animated />
+                <StatusBar style="dark" translucent animated backgroundColor="transparent" />
               </QueryClientProvider>
             </AutocompleteDropdownContextProvider>
           </SafeAreaView>

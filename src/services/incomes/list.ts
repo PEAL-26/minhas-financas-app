@@ -1,4 +1,5 @@
 import { db } from "@/db/connection";
+import { OperationTypes, Status } from "@/types";
 
 export type ListIncomesParams = {
   query?: string;
@@ -8,7 +9,12 @@ export type ListIncomesParams = {
 
 export type ListIncomesResponseData = {
   id: number;
-  name: string;
+  title: string;
+  date: Date;
+  amount: number;
+  type: OperationTypes;
+  recurrence: number | null;
+  status: Status;
 };
 
 export async function listIncomes(params?: ListIncomesParams) {
@@ -16,16 +22,21 @@ export async function listIncomes(params?: ListIncomesParams) {
   return db.listPaginate<ListIncomesResponseData>("incomes", {
     select: {
       id: true,
-      name: true,
+      title: true,
+      date: true,
+      amount: true,
+      type: true,
+      recurrence: true,
+      status: true,
     },
     page,
     size,
     where: {
-      name: {
+      title: {
         value: query,
         op: "like",
       },
     },
-    orderBy: [{ created_at: "desc" }],
+    orderBy: [{ "incomes.created_at": "desc" }],
   });
 }

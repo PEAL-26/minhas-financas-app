@@ -20,7 +20,9 @@ export interface SwitchToggleTextProps<TValue> {
   onChangeValue?(value: TValue): void;
 }
 
-export function SwitchToggleText<Tvalue = any>(props: SwitchToggleTextProps<Tvalue>) {
+export function SwitchToggleText<Tvalue = any>(
+  props: SwitchToggleTextProps<Tvalue>
+) {
   const { items, item, value, defaultValue, defaultItem, onChangeValue } =
     props;
 
@@ -41,7 +43,7 @@ export function SwitchToggleText<Tvalue = any>(props: SwitchToggleTextProps<Tval
       return items.find((i) => i.value === defaultValue);
     }
 
-    return items?.[1];
+    return items?.[0];
   });
 
   const handleChangeItem = useCallback(
@@ -98,10 +100,10 @@ export function SwitchToggleText<Tvalue = any>(props: SwitchToggleTextProps<Tval
   useEffect(() => {
     if (item) {
       const index = items.findIndex((i) => i.value === item.value);
-      handleChangeItem(Boolean(index));
+      handleChangeItem(index === 1);
     } else if (value) {
       const index = items.findIndex((i) => i.value === value);
-      handleChangeItem(Boolean(index));
+      handleChangeItem(index === 1);
     }
   }, [handleChangeItem, item, items, value]);
 

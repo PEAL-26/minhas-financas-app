@@ -16,3 +16,11 @@ export async function alert(title: string, message?: string) {
     ]);
   });
 }
+
+export function messageSuccess(message: string) {
+  Alert.prompt("Sucesso!", message, undefined);
+}
+
+export function messageError(message: string) {
+  Alert.prompt("Oops, Algo deu errado!", message, undefined);
+}

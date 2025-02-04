@@ -4,7 +4,12 @@ export type DatabaseConfigSelect = {
   [key: string]: SelectField;
 };
 
-export type DatabaseWhereFieldValue = string | number | boolean | undefined;
+export type DatabaseWhereFieldValue =
+  | string
+  | number
+  | boolean
+  | undefined
+  | null;
 export type DatabaseWhereField =
   | DatabaseWhereFieldValue
   | {

@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
   ViewStyle,
+  ActivityIndicator,
 } from "react-native";
 
 export interface CustomProps extends TouchableOpacityProps {
@@ -24,6 +25,7 @@ export interface CustomProps extends TouchableOpacityProps {
   children?: ReactNode;
   className?: string;
   style?: ViewStyle;
+  isLoading?: boolean;
 }
 
 export const Button = forwardRef<
@@ -41,6 +43,7 @@ export const Button = forwardRef<
     iconColor = "#000",
     iconSize,
     disabled,
+    isLoading,
     ...rest
   } = props;
 
@@ -62,6 +65,7 @@ export const Button = forwardRef<
             className={cn(iconClassName)}
           />
         )}
+        {isLoading && <ActivityIndicator color="#fff" size="small" animating />}
         {children && (
           <>
             {isValidElement(children) ? (

@@ -8,7 +8,10 @@ export type ListTransactionsParams = {
 
 export type ListTransactionsResponseData = {
   id: number;
-  name: string;
+  title: string;
+  type: "income" | "expense";
+  amount: number;
+  date: Date;
 };
 
 export async function listTransactions(params?: ListTransactionsParams) {
@@ -16,16 +19,19 @@ export async function listTransactions(params?: ListTransactionsParams) {
   return db.listPaginate<ListTransactionsResponseData>("transactions", {
     select: {
       id: true,
-      name: true,
+      title: true,
+      type: true,
+      amount: true,
+      date: true,
     },
     page,
     size,
     where: {
-      name: {
-        value: query,
-        op: "like",
-      },
+      // title: {
+      //   value: query,
+      //   op: "like",
+      // },
     },
-    orderBy: [{ created_at: "desc" }],
+    orderBy: [{ "transactions.created_at": "desc" }],
   });
 }

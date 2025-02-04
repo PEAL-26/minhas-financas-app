@@ -5,4 +5,5 @@ export interface BottomSheetBaseModalProps {
   title?: string;
   show?: boolean;
   onClose?(): void;
+  isLoading?: boolean;
 }

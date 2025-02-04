@@ -3,23 +3,14 @@ import { RefreshControl, View } from "react-native";
 import { IncomeListingCard } from "@/components/ui/cards";
 import { FlashList, setFlashListLoader } from "@/components/ui/flash-list";
 import { colors } from "@/styles/colors";
+import { useQueryPagination } from "@/hooks/use-query-pagination";
+import { listIncomes } from "@/services/incomes";
 
 export default function IncomesScreen() {
-  const data = Array.from({ length: 5 }, (_, index) => ({
-    id: index,
-    title: `Receita ${index + 1}`,
-    description: `Descrição da receita ${index + 1}`,
-    date: new Date(),
-    amount: 100 * (index + 1),
-    type: "unique" as const,
-    recurrence: index % 2 === 0 ? null : 30,
-    status: "pending" as const,
-  }));
-
-  const isLoading = false;
-  const isFetching = false;
-  const isError = false;
-  const refetch = () => {};
+  const { data, isLoading, isFetching, isError, refetch } = useQueryPagination({
+    fn: () => listIncomes(),
+    queryKey: ["incomes"],
+  });
 
   return (
     <View className="flex h-full w-full flex-1 flex-col pb-[72px] px-4">

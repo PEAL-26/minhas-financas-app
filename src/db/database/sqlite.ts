@@ -1,4 +1,4 @@
-// import { SQLiteDatabase } from "expo-sqlite";
+import { SQLiteDatabase } from "expo-sqlite";
 import { IDatabase } from "./interfaces";
 import {
   DatabaseConfig,
@@ -14,12 +14,11 @@ import {
   generateQueryFields,
   generateQuerySql,
   generateWhereClause,
-  join,
   serialize,
 } from "./utils";
 
 export class DatabaseSQLite implements IDatabase {
-  constructor(private connection: any) {}
+  constructor(private connection: SQLiteDatabase) {}
 
   async transaction(callback: () => Promise<void>) {
     return this.connection.withTransactionAsync(callback);
