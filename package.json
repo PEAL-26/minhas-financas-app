@@ -13,7 +13,8 @@
     "drizzle:migrate": "npx drizzle-kit migrate",
     "drizzle:studio": "npx drizzle-kit studio --verbose",
     "eas:build:dev:android": "eas build --profile development --platform android",
-    "eas:build:preview:android": "eas build --profile preview --platform android"
+    "eas:build:preview:android": "eas build --profile preview --platform android",
+    "eas:build:local:android": "npx eas build --profile local --platform android --local"
   },
   "jest": {
     "preset": "jest-expo"
