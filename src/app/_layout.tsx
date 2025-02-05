@@ -10,7 +10,7 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -32,13 +32,11 @@ export default function RootLayout() {
     SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-  const [screenLoaded, setScreenLoaded] = useState(true);
-
   useEffect(() => {
-    if (fontLoaded && screenLoaded) {
+    if (fontLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [fontLoaded, screenLoaded]);
+  }, [fontLoaded]);
 
   if (migration?.error) {
     return (
@@ -48,7 +46,7 @@ export default function RootLayout() {
     );
   }
 
-  if (!fontLoaded || !screenLoaded || !migration.success) {
+  if (!fontLoaded || !migration.success) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator color={colors.primary.DEFAULT} size="small" />
@@ -64,22 +62,15 @@ export default function RootLayout() {
           <SafeAreaView style={{ flex: 1 }}>
             <AutocompleteDropdownContextProvider>
               <QueryClientProvider client={queryClient}>
-                <View
-                  style={{ flex: 1 }}
-                  onLayout={() => {
-                    setScreenLoaded(true);
-                  }}
-                >
-                  <Stack>
-                    <Stack.Screen
-                      name="(tabs)"
-                      options={{
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen name="+not-found" />
-                  </Stack>
-                </View>
+                <Stack>
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen name="+not-found" />
+                </Stack>
                 <StatusBar style="dark" translucent animated backgroundColor="transparent" />
               </QueryClientProvider>
             </AutocompleteDropdownContextProvider>

@@ -1,3 +1,4 @@
+import { CircularFinancialSummary } from '@/components/templates/dashboard';
 import { TransactionListingCard } from '@/components/ui/cards';
 import { FlashList, setFlashListLoader } from '@/components/ui/flash-list';
 import { useQueryPagination } from '@/hooks/use-query-pagination';
@@ -14,12 +15,19 @@ export default function DashboardScreen() {
 
   return (
     <>
-      <View className="flex flex-row items-center bg-white">
-        <Image height={40} width={40} src={require('../../../assets/images/icon.png')} />
-        <Text className="text-2xl">Minhas Finanças</Text>
+      <View className="flex h-14 flex-row items-center gap-2 bg-white p-4">
+        <Image
+          style={{ width: 40, height: 40 }}
+          source={require('../../../assets/images/icon.png')}
+        />
+        <Text style={{ color: '#3D3D3D' }} className="text-lg font-bold">
+          Minhas Finanças
+        </Text>
       </View>
 
-      <View className="flex h-full w-full flex-1 flex-col px-4 pb-[72px]">
+      <CircularFinancialSummary />
+
+      <View className="flex h-full w-full flex-1 flex-col px-4 pb-[72px] pt-4">
         <FlashList
           data={data}
           renderItem={({ item }) => (

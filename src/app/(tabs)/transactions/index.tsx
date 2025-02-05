@@ -1,6 +1,7 @@
 import { TransactionRegisterModal } from '@/components/modals';
 import { TransactionListingCard } from '@/components/ui/cards';
 import { FlashList, setFlashListLoader } from '@/components/ui/flash-list';
+import { Header } from '@/components/ui/header';
 import { SwipeableActions } from '@/components/ui/swipeable';
 import { useQueryPagination } from '@/hooks/use-query-pagination';
 import { useRemove } from '@/hooks/use-remove';
@@ -30,7 +31,8 @@ export default function AllTransactionsScreen() {
   });
   return (
     <>
-      <View className="flex h-full w-full flex-1 flex-col px-4 pb-[72px]">
+      <Header title="Transações" />
+      <View className="flex h-full w-full flex-1 flex-col px-4 pb-[72px]  pt-4">
         <FlashList
           data={data}
           renderItem={({ item }) => (

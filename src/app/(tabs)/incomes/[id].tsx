@@ -1,3 +1,9 @@
+import { Header } from '@/components/ui/header';
+
 export default function IncomeDetailsScreen() {
-  return <></>;
+  return (
+    <>
+      <Header title="Detalhes da renda" callback />
+    </>
+  );
 }

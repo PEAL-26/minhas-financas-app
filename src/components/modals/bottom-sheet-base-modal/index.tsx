@@ -3,7 +3,7 @@ import { BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView } from '@g
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
 import React, { useCallback } from 'react';
 
-import { BottomSheetBaseModalProps } from './type';
+import { BottomSheetBaseModalProps, ChildrenFn } from './type';
 import { useBottomSheetBaseModal } from './use-bottom-sheet-base-modal';
 
 export function BottomSheetBaseModal(props: BottomSheetBaseModalProps) {
@@ -17,6 +17,14 @@ export function BottomSheetBaseModal(props: BottomSheetBaseModalProps) {
     [],
   );
 
+  const renderChildren = () => {
+    if (typeof children === 'function') {
+      return (children as ChildrenFn)({});
+    }
+
+    return children;
+  };
+
   return (
     <BottomSheetModal
       index={1}
@@ -29,7 +37,7 @@ export function BottomSheetBaseModal(props: BottomSheetBaseModalProps) {
       <Text className="flex items-center justify-center py-2 text-center text-lg font-bold">
         {title}
       </Text>
-      <BottomSheetScrollView style={{ width: '100%' }}>{children}</BottomSheetScrollView>
+      <BottomSheetScrollView style={{ width: '100%' }}>{renderChildren()}</BottomSheetScrollView>
     </BottomSheetModal>
   );
 }

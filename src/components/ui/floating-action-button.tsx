@@ -54,7 +54,7 @@ export const FloatingActionButton = (props: Props) => {
   return (
     <AnimatedPressable
       onPress={onPress}
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       style={[animatedStyles, styles.button]}
     >
       {Icon && (

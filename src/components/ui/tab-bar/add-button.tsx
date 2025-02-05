@@ -5,7 +5,7 @@ import {
   TrendingDownIcon,
   TrendingUpIcon,
 } from 'lucide-react-native';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 
@@ -16,7 +16,6 @@ import {
   TransactionRegisterModal,
 } from '@/components/modals';
 
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { FloatingActionButton } from '../floating-action-button';
 import { styles } from './styles';
 
@@ -28,21 +27,13 @@ export function AddButton() {
   const [showModal, setShowModal] = useState<Record<string, boolean>>();
   const isExpanded = useSharedValue(false);
 
-  const sheetModal = {
-    transaction: useRef<BottomSheetModal>(null),
-    income: useRef<BottomSheetModal>(null),
-    expense: useRef<BottomSheetModal>(null),
-    need: useRef<BottomSheetModal>(null),
-  };
-
   const handlePress = () => {
     isExpanded.value = !isExpanded.value;
   };
 
   const handleOpenModal = (modal: ModalTypes) => {
     isExpanded.value = false;
-    sheetModal[modal].current?.present();
-    // setShowModal({ [modal]: true });
+    setShowModal({ [modal]: true });
   };
 
   return (

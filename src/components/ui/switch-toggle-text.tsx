@@ -54,14 +54,17 @@ export function SwitchToggleText<Tvalue = any>(props: SwitchToggleTextProps<Tval
     (value: boolean, press = false) => {
       if (items.length === 2) {
         isOn.value = value;
-        const item = value ? items[1] : items[0];
-        setCurrentValue(item);
-        if (press) {
-          onChangeValue?.(item.value);
-        }
+
+        setTimeout(() => {
+          const item = value ? items[1] : items[0];
+          setCurrentValue(item);
+          if (press) {
+            onChangeValue?.(item.value);
+          }
+        }, duration);
       }
     },
-    [isOn, items, onChangeValue],
+    [duration, isOn, items, onChangeValue],
   );
 
   const handlePress = () => {

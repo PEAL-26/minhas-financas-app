@@ -37,9 +37,9 @@ export function generateWhereClause(where?: DatabaseWhere): string {
       let value: DatabaseWhereField = condition;
       let op = 'equal';
       if (typeof condition === 'object') {
-        column = condition.as || key;
-        value = condition.value !== undefined ? condition.value : undefined;
-        op = condition.op || 'equal';
+        column = condition?.as || key;
+        value = condition?.value !== undefined ? condition.value : undefined;
+        op = condition?.op || 'equal';
       }
 
       if (value !== undefined) {
